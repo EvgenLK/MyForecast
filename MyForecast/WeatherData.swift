@@ -5,7 +5,6 @@
 //  Created by Evgenii Kutasov on 02.05.2023.
 // 
 import Foundation
-
 // MARK: - WeatherData
 struct WeatherData: Codable {
     let coord: Coord?
@@ -14,11 +13,10 @@ struct WeatherData: Codable {
     let main: Main?
     let visibility: Int?
     let wind: Wind?
-    let rain: Rain?
     let clouds: Clouds?
     let dt: Int?
     let sys: Sys?
-    let timezone, id: Int?
+    let id: Int?
     let name: String?
     let cod: Int?
 }
@@ -35,32 +33,21 @@ struct Coord: Codable {
 
 // MARK: - Main
 struct Main: Codable {
-    let temp, feelsLike, tempMin, tempMax: Double?
-    let pressure, humidity, seaLevel, grndLevel: Int?
+    let temp: Double?
+    let pressure, humidity: Int?
+    let tempMin, tempMax: Double?
 
     enum CodingKeys: String, CodingKey {
-        case temp
-        case feelsLike = "feels_like"
+        case temp, pressure, humidity
         case tempMin = "temp_min"
         case tempMax = "temp_max"
-        case pressure, humidity
-        case seaLevel = "sea_level"
-        case grndLevel = "grnd_level"
-    }
-}
-
-// MARK: - Rain
-struct Rain: Codable {
-    let the1H: Double?
-
-    enum CodingKeys: String, CodingKey {
-        case the1H = "1h"
     }
 }
 
 // MARK: - Sys
 struct Sys: Codable {
     let type, id: Int?
+    let message: Double?
     let country: String?
     let sunrise, sunset: Int?
 }
@@ -75,5 +62,4 @@ struct Weather: Codable {
 struct Wind: Codable {
     let speed: Double?
     let deg: Int?
-    let gust: Double?
 }
