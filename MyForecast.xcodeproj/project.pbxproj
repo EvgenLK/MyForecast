@@ -13,6 +13,8 @@
 		9B4DFA9A29FF820F003DBC27 /* MyForecast.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9B4DFA9829FF820F003DBC27 /* MyForecast.xcdatamodeld */; };
 		9B4DFA9C29FF8210003DBC27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B4DFA9B29FF8210003DBC27 /* Assets.xcassets */; };
 		9B4DFA9F29FF8210003DBC27 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B4DFA9D29FF8210003DBC27 /* LaunchScreen.storyboard */; };
+		9B7C647E2A0073C100EF0E54 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7C647D2A0073C100EF0E54 /* WeatherData.swift */; };
+		9B842A572A0741FE00A6B1C8 /* WeatherCity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B842A562A0741FE00A6B1C8 /* WeatherCity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		9B4DFA9B29FF8210003DBC27 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B4DFA9E29FF8210003DBC27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9B4DFAA029FF8210003DBC27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9B7C647D2A0073C100EF0E54 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
+		9B842A562A0741FE00A6B1C8 /* WeatherCity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +63,8 @@
 				9B4DFA8F29FF820F003DBC27 /* AppDelegate.swift */,
 				9B4DFA9129FF820F003DBC27 /* SceneDelegate.swift */,
 				9B4DFA9329FF820F003DBC27 /* ViewController.swift */,
+				9B7C647D2A0073C100EF0E54 /* WeatherData.swift */,
+				9B842A562A0741FE00A6B1C8 /* WeatherCity.swift */,
 				9B4DFA9B29FF8210003DBC27 /* Assets.xcassets */,
 				9B4DFA9D29FF8210003DBC27 /* LaunchScreen.storyboard */,
 				9B4DFAA029FF8210003DBC27 /* Info.plist */,
@@ -138,9 +144,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B4DFA9A29FF820F003DBC27 /* MyForecast.xcdatamodeld in Sources */,
+				9B7C647E2A0073C100EF0E54 /* WeatherData.swift in Sources */,
 				9B4DFA9429FF820F003DBC27 /* ViewController.swift in Sources */,
 				9B4DFA9029FF820F003DBC27 /* AppDelegate.swift in Sources */,
 				9B4DFA9229FF820F003DBC27 /* SceneDelegate.swift in Sources */,
+				9B842A572A0741FE00A6B1C8 /* WeatherCity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
