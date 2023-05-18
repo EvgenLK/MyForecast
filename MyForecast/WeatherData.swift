@@ -1,65 +1,44 @@
+// This file was generated from JSON Schema using quicktype, do not modify it directly.
+// To parse the JSON, add this file to your project and do:
 //
-//  WeatherData.swift
-//  MyForecast
-//
-//  Created by Evgenii Kutasov on 02.05.2023.
-// 
+//   let weaterData = try? JSONDecoder().decode(WeaterData.self, from: jsonData)
+
 import Foundation
-// MARK: - WeatherData
-struct WeatherData: Codable {
-    let coord: Coord?
-    let weather: [Weather]?
-    let base: String?
-    let main: Main?
-    let visibility: Int?
-    let wind: Wind?
-    let clouds: Clouds?
-    let dt: Int?
-    let sys: Sys?
-    let id: Int?
-    let name: String?
-    let cod: Int?
-}
 
-// MARK: - Clouds
-struct Clouds: Codable {
-    let all: Int?
-}
-
-// MARK: - Coord
-struct Coord: Codable {
-    let lon, lat: Double?
-}
-
-// MARK: - Main
-struct Main: Codable {
-    let temp: Double?
-    let pressure, humidity: Int?
-    let tempMin, tempMax: Double?
+// MARK: - WeaterData
+struct WeaterData: Codable {
+    let latitude, longitude, generationtimeMS: Double?
+    let utcOffsetSeconds: Int?
+    let timezone, timezoneAbbreviation: String?
+    let elevation: Int?
+    let hourlyUnits: HourlyUnits?
+    let hourly: Hourly?
 
     enum CodingKeys: String, CodingKey {
-        case temp, pressure, humidity
-        case tempMin = "temp_min"
-        case tempMax = "temp_max"
+        case latitude, longitude
+        case generationtimeMS = "generationtime_ms"
+        case utcOffsetSeconds = "utc_offset_seconds"
+        case timezone
+        case timezoneAbbreviation = "timezone_abbreviation"
+        case elevation
+        case hourlyUnits = "hourly_units"
+        case hourly
     }
 }
 
-// MARK: - Sys
-struct Sys: Codable {
-    let type, id: Int?
-    let message: Double?
-    let country: String?
-    let sunrise, sunset: Int?
+// MARK: - Hourly
+struct Hourly: Codable {
+    let time: [String]?
+    let temperature2M, precipitation, windspeed10M: [Double]?
+
+    enum CodingKeys: String, CodingKey {
+        case time
+        case temperature2M = "temperature_2m"
+        case precipitation
+        case windspeed10M = "windspeed_10m"
+    }
 }
 
-// MARK: - Weather
-struct Weather: Codable {
-    let id: Int?
-    let main, description, icon: String?
-}
-
-// MARK: - Wind
-struct Wind: Codable {
-    let speed: Double?
-    let deg: Int?
+// MARK: - HourlyUnits
+struct HourlyUnits: Codable {
 }
