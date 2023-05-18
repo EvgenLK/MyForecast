@@ -8,11 +8,12 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let ApiKeyForeCast = "63176e1a7b1b34c17e432ec30212b6f3"
     let backGroundImage = UIImageView(frame: UIScreen.main.bounds )
     var myLabelTemperature = UILabel()
     var myTextFieldTemperature = UITextField()
     var myButtonTemperature = UIButton()
+    var forecastWeatherDay: [String] = []
+    let queue = DispatchQueue(label: "thred-save-inArray", attributes: .concurrent)
 
     
     
@@ -52,28 +53,46 @@ class ViewController: UIViewController {
     
     @objc func requestForecastWeather() {
         myTextFieldTemperature.resignFirstResponder()
-
-        let urlString = "https://api.openweathermap.org/data/2.5/weather?q=\(myTextFieldTemperature.text!.replacingOccurrences(of: " ", with: ""))&appid=\(ApiKeyForeCast)&units=metric"
+        
+        let urlString = "https://api.open-meteo.com/v1/gfs?latitude=43.11&longitude=131.87&hourly=temperature_2m,precipitation,windspeed_10m&forecast_days=1&timezone=auto"
         
         guard let url = URL(string: urlString) else {fatalError("fail")}
         let request = URLRequest(url: url)
         let task = URLSession.shared.dataTask(with: request) {data, response, error in
-            if let data, let weather = try? JSONDecoder().decode(WeatherData.self, from: data) {
-                DispatchQueue.main.async {
-                    guard let temp = weather.main?.temp else {return}
-                    self.myLabelTemperature.text = "\(Int(temp))" + "℃"
+            if let data, let weather = try? JSONDecoder().decode(WeaterData.self, from: data) {
+                self.forecastWeatherDay.removeAll()
+                
+                self.queue.async(flags: .barrier ){ [weak self] in
+                    for elem in 0..<24{
+                        guard let temp = weather.hourly?.temperature2M![elem] else {return}
+                        self?.forecastWeatherDay.append(String(Int(temp)))
+                    }
+                    self?.updateArrAsync()
+                }
+                DispatchQueue.main.async { [weak self] in
+                    guard let temp = weather.hourly?.temperature2M![12] else {return}
+                    self?.myLabelTemperature.text = "\(Int(temp))" + "℃"
+                    
                 }
             } else {
                 print("Fail")
             }
         }
-            task.resume()
-
+        task.resume()
+    }
+    
+    func updateArrAsync() -> Array<Any> {
+        DispatchQueue.main.async {
+            _ = self.forecastWeatherDay
+            self.collectionView.reloadData()
         }
+
+        return forecastWeatherDay
+    }
 
         func setupLabel() {
             
-            myLabelTemperature = UILabel(frame: CGRect(x: 10, y: 200, width: view.bounds.width, height: 100))
+            myLabelTemperature = UILabel(frame: CGRect(x: 10, y: 170, width: view.bounds.width, height: 100))
             myLabelTemperature.font = UIFont(name: "ArialMT", size: 50)
             myLabelTemperature.textColor = .white
             myLabelTemperature.text = "Enter the city"
@@ -98,7 +117,7 @@ class ViewController: UIViewController {
         
         
         func setupBackGround() {
-            backGroundImage.image = UIImage(named: "GoodDay.jpg")
+            backGroundImage.image = UIImage(named: "GoodDay")
             backGroundImage.contentMode = .scaleAspectFill
 
             view.addSubview(backGroundImage)
@@ -107,19 +126,19 @@ class ViewController: UIViewController {
       
     func colView() {
         view.addSubview(collectionView)
-        collectionView.backgroundColor = UIColor.clear.withAlphaComponent(0)
         
         NSLayoutConstraint.activate([
         
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height/1.3),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.bounds.height/1.3 + 40),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10)
             
         ])
 
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.register(CustomCell.self, forCellWithReuseIdentifier: "cell")
         
         
     }
@@ -130,6 +149,10 @@ class ViewController: UIViewController {
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         layout.scrollDirection = .horizontal
+        cv.layer.opacity = 0.6
+        cv.layer.cornerRadius = 20
+        cv.showsHorizontalScrollIndicator = false
+        
         return cv
 
     }()
@@ -145,17 +168,16 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
         return CGSize(width: collectionView.frame.width/3, height: collectionView.frame.height/2)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return forecastWeatherDay.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        let title = UILabel(frame: CGRect(x: 0, y: 0, width: cell.bounds.size.width, height: 50))
-        title.text = "text new"
-        title.font = UIFont(name: "AvenirNext-Bold", size: 15)
-        title.textAlignment = .center
-        cell.contentView.addSubview(title)
-
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
+        
+        
+        cell.myTemp.text = forecastWeatherDay[indexPath.row]
+        print(forecastWeatherDay.count)
+        
         return cell
     }
     
