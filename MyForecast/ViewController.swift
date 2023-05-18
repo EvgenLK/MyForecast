@@ -53,33 +53,46 @@ class ViewController: UIViewController {
     
     @objc func requestForecastWeather() {
         myTextFieldTemperature.resignFirstResponder()
-
+        
         let urlString = "https://api.open-meteo.com/v1/gfs?latitude=43.11&longitude=131.87&hourly=temperature_2m,precipitation,windspeed_10m&forecast_days=1&timezone=auto"
         
         guard let url = URL(string: urlString) else {fatalError("fail")}
         let request = URLRequest(url: url)
         let task = URLSession.shared.dataTask(with: request) {data, response, error in
             if let data, let weather = try? JSONDecoder().decode(WeaterData.self, from: data) {
+                self.forecastWeatherDay.removeAll()
                 
-                self.queue.async(flags: .barrier ){
-                    for elem in 0..<23{
+                self.queue.async(flags: .barrier ){ [weak self] in
+                    for elem in 0..<24{
                         guard let temp = weather.hourly?.temperature2M![elem] else {return}
-                        self.forecastWeatherDay.append(String(temp))
-                        self.myLabelTemperature.text = "\(String(temp))" + "℃"
+                        self?.forecastWeatherDay.append(String(Int(temp)))
                     }
+                    self?.updateArrAsync()
+                }
+                DispatchQueue.main.async { [weak self] in
+                    guard let temp = weather.hourly?.temperature2M![12] else {return}
+                    self?.myLabelTemperature.text = "\(Int(temp))" + "℃"
+                    
                 }
             } else {
-                    print("Fail")
-                }
+                print("Fail")
+            }
         }
-            task.resume()
-
-        }
+        task.resume()
+    }
     
+    func updateArrAsync() -> Array<Any> {
+        DispatchQueue.main.async {
+            _ = self.forecastWeatherDay
+            self.collectionView.reloadData()
+        }
+
+        return forecastWeatherDay
+    }
 
         func setupLabel() {
             
-            myLabelTemperature = UILabel(frame: CGRect(x: 10, y: 200, width: view.bounds.width, height: 100))
+            myLabelTemperature = UILabel(frame: CGRect(x: 10, y: 170, width: view.bounds.width, height: 100))
             myLabelTemperature.font = UIFont(name: "ArialMT", size: 50)
             myLabelTemperature.textColor = .white
             myLabelTemperature.text = "Enter the city"
@@ -104,7 +117,7 @@ class ViewController: UIViewController {
         
         
         func setupBackGround() {
-            backGroundImage.image = UIImage(named: "GoodDay.jpg")
+            backGroundImage.image = UIImage(named: "GoodDay")
             backGroundImage.contentMode = .scaleAspectFill
 
             view.addSubview(backGroundImage)
@@ -155,7 +168,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
         return CGSize(width: collectionView.frame.width/3, height: collectionView.frame.height/2)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 24
+        return forecastWeatherDay.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -163,8 +176,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
         
         
         cell.myTemp.text = forecastWeatherDay[indexPath.row]
-        cell.myTemp.text = "text"
-        
+        print(forecastWeatherDay.count)
         
         return cell
     }
