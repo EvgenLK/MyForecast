@@ -1,9 +1,7 @@
+// This file was generated from JSON Schema using quicktype, do not modify it directly.
+// To parse the JSON, add this file to your project and do:
 //
-//  FiveForecastWeather.swift
-//  MyForecast
-//
-//  Created by Evgenii Kutasov on 07.05.2023.
-//
+//   let weaterCity = try? JSONDecoder().decode(WeaterCity.self, from: jsonData)
 
 import Foundation
 
@@ -40,4 +38,3 @@ struct Result: Codable {
         case country, admin1
     }
 }
-
