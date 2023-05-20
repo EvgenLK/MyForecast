@@ -14,7 +14,13 @@ class ViewController: UIViewController {
     var myButtonTemperature = UIButton()
     var forecastWeatherDay: [String] = []
     let queue = DispatchQueue(label: "thred-save-inArray", attributes: .concurrent)
-
+    var arrayCityForecast: [String] = []
+    var currentData: Int = {
+        let date = Date()
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+        return hour
+    }()
     
     
     
@@ -54,15 +60,46 @@ class ViewController: UIViewController {
     @objc func requestForecastWeather() {
         myTextFieldTemperature.resignFirstResponder()
         
-        let urlString = "https://api.open-meteo.com/v1/gfs?latitude=43.11&longitude=131.87&hourly=temperature_2m,precipitation,windspeed_10m&forecast_days=1&timezone=auto"
+        let urlCityString = "https://geocoding-api.open-meteo.com/v1/search?name=\(myTextFieldTemperature.text!.replacingOccurrences(of: " ", with: ""))&count=1&language=en&format=json"
         
-        guard let url = URL(string: urlString) else {fatalError("fail")}
+        guard let urlcity = URL(string: urlCityString) else {fatalError("fail")}
+        let requestCity = URLRequest(url: urlcity)
+        
+        let taskCity = URLSession.shared.dataTask(with: requestCity) { data, response, error in
+            if let data, let city = try? JSONDecoder().decode(WeaterCity.self, from: data) {
+                self.arrayCityForecast.removeAll()
+                
+                self.queue.async(flags: .barrier) {
+                    guard let dataArray = city.results else { return }
+                    for elem in dataArray {
+                        guard let lat = elem.latitude else {return}
+                        guard let lon = elem.longitude else {return}
+                        self.arrayCityForecast.append(String(format:"%.02f", lat))
+                        self.arrayCityForecast.append(String(format:"%.02f", lon))
+
+                        
+                        self.updateTupleAsync()
+                    }
+                }
+                
+            } else {
+                print("Fail")
+            }
+        }
+        taskCity.resume()
+        sleep(1)
+
+        
+        let urlString = "https://api.open-meteo.com/v1/gfs?latitude=\(arrayCityForecast[0])&longitude=\(arrayCityForecast[1])&hourly=temperature_2m,precipitation,windspeed_10m&forecast_days=1&timezone=auto"
+        
+        guard let url = URL(string: urlString) else { return }
         let request = URLRequest(url: url)
-        let task = URLSession.shared.dataTask(with: request) {data, response, error in
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let data, let weather = try? JSONDecoder().decode(WeaterData.self, from: data) {
                 self.forecastWeatherDay.removeAll()
                 
-                self.queue.async(flags: .barrier ){ [weak self] in
+                self.queue.async(flags: .barrier ) { [weak self] in
                     for elem in 0..<24{
                         guard let temp = weather.hourly?.temperature2M![elem] else {return}
                         self?.forecastWeatherDay.append(String(Int(temp)))
@@ -70,25 +107,31 @@ class ViewController: UIViewController {
                     self?.updateArrAsync()
                 }
                 DispatchQueue.main.async { [weak self] in
-                    guard let temp = weather.hourly?.temperature2M![12] else {return}
+                    guard let temp = weather.hourly?.temperature2M![self!.currentData] else {return}
                     self?.myLabelTemperature.text = "\(Int(temp))" + "℃"
-                    
+
                 }
             } else {
                 print("Fail")
             }
         }
+
         task.resume()
     }
     
-    func updateArrAsync() -> Array<Any> {
+    func updateArrAsync() {
         DispatchQueue.main.async {
             _ = self.forecastWeatherDay
             self.collectionView.reloadData()
         }
-
-        return forecastWeatherDay
     }
+    func updateTupleAsync() {
+        DispatchQueue.main.async {
+            _ = self.arrayCityForecast
+
+        }
+    }
+
 
         func setupLabel() {
             
@@ -168,15 +211,17 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
         return CGSize(width: collectionView.frame.width/3, height: collectionView.frame.height/2)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return forecastWeatherDay.count
+        return forecastWeatherDay.count != 0 ? forecastWeatherDay.count: 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
         
-        
-        cell.myTemp.text = forecastWeatherDay[indexPath.row]
-        print(forecastWeatherDay.count)
+        if forecastWeatherDay.count != 0{
+            cell.myTemp.text = "\(forecastWeatherDay[indexPath.row]) ℃"
+        } else {
+            cell.myTemp.text = "Not forecast"
+        }
         
         return cell
     }
