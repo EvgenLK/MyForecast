@@ -11,11 +11,15 @@ class CustomCell: UICollectionViewCell {
     
     let myTemp = UILabel()
     let myHour = UILabel()
+    let myRain = UILabel()
+    let myWindSpeed = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(myTemp)
         addSubview(myHour)
+        addSubview(myRain)
+        addSubview(myWindSpeed)
         
 
         
@@ -38,6 +42,28 @@ class CustomCell: UICollectionViewCell {
             myTemp.trailingAnchor.constraint(equalTo: trailingAnchor),
             myTemp.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+        
+        
+        myRain.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            myRain.topAnchor.constraint(equalTo: topAnchor, constant: 30),
+            myRain.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            myRain.trailingAnchor.constraint(equalTo: trailingAnchor),
+            myRain.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+        
+        myWindSpeed.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+        
+            myWindSpeed.topAnchor.constraint(equalTo: topAnchor, constant: 60),
+            myWindSpeed.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            myWindSpeed.trailingAnchor.constraint(equalTo: trailingAnchor),
+            myWindSpeed.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+        
         
         
         

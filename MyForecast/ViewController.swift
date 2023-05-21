@@ -15,6 +15,8 @@ class ViewController: UIViewController {
     var forecastWeatherDay: [String] = []
     let queue = DispatchQueue(label: "thred-save-inArray", attributes: .concurrent)
     var arrayCityForecast: [String] = []
+    var forecastRain: [String] = []
+    var forecastWindSpeed: [String] = []
     var currentData: Int = {
         let date = Date()
         let calendar = Calendar.current
@@ -59,6 +61,7 @@ class ViewController: UIViewController {
     
     @objc func requestForecastWeather() {
         myTextFieldTemperature.resignFirstResponder()
+        myLabelTemperature.text = "loading..."
         
         let urlCityString = "https://geocoding-api.open-meteo.com/v1/search?name=\(myTextFieldTemperature.text!.replacingOccurrences(of: " ", with: ""))&count=1&language=en&format=json"
         
@@ -69,17 +72,15 @@ class ViewController: UIViewController {
             if let data, let city = try? JSONDecoder().decode(WeaterCity.self, from: data) {
                 self.arrayCityForecast.removeAll()
                 
-                DispatchQueue.main.sync {
+
                     
-//                .async(flags: .barrier) {
+                self.queue.async(flags: .barrier) {
                     guard let dataArray = city.results else { return }
                     for elem in dataArray {
                         guard let lat = elem.latitude else {return}
                         guard let lon = elem.longitude else {return}
                         self.arrayCityForecast.append(String(format:"%.02f", lat))
                         self.arrayCityForecast.append(String(format:"%.02f", lon))
-
-                        
                         self.updateTupleAsync()
                     }
                 }
@@ -89,10 +90,9 @@ class ViewController: UIViewController {
             }
         }
         taskCity.resume()
-        sleep(1)
-        print(arrayCityForecast)
+        sleep(2)
         
-        let urlString = "https://api.open-meteo.com/v1/gfs?latitude=\(arrayCityForecast[0])&longitude=\(arrayCityForecast[1])&hourly=temperature_2m,precipitation,windspeed_10m&forecast_days=1&timezone=auto"
+        let urlString = "https://api.open-meteo.com/v1/gfs?latitude=\(arrayCityForecast[0])&longitude=\(arrayCityForecast[1])&hourly=temperature_2m,precipitation,windspeed_10m&windspeed_unit=ms&forecast_days=1&timezone=auto"
         
         guard let url = URL(string: urlString) else { return }
         let request = URLRequest(url: url)
@@ -101,13 +101,29 @@ class ViewController: UIViewController {
             if let data, let weather = try? JSONDecoder().decode(WeaterData.self, from: data) {
                 self.forecastWeatherDay.removeAll()
                 
-                self.queue.async(flags: .barrier ) { [weak self] in
+                self.queue.async(flags: .barrier){ [weak self] in
                     for elem in 0..<24{
                         guard let temp = weather.hourly?.temperature2M![elem] else {return}
                         self?.forecastWeatherDay.append(String(Int(temp)))
                     }
                     self?.updateArrAsync()
                 }
+                
+                self.queue.async(flags: .barrier){ [weak self] in
+                    for elem in 0..<24{
+                        guard let rain = weather.hourly?.precipitation![elem] else {return}
+                        self?.forecastRain.append(String(Double(rain)))
+                    }
+                    self?.updateArrAsync()
+                }
+                self.queue.async(flags: .barrier){ [weak self] in
+                    for elem in 0..<24{
+                        guard let windSpeed = weather.hourly?.windspeed10M![elem] else {return}
+                        self?.forecastWindSpeed.append(String(Double(windSpeed)))
+                    }
+                    self?.updateArrAsync()
+                }
+                
                 DispatchQueue.main.async { [weak self] in
                     guard let temp = weather.hourly?.temperature2M![self!.currentData] else {return}
                     self?.myLabelTemperature.text = "\(Int(temp))" + "℃"
@@ -124,6 +140,8 @@ class ViewController: UIViewController {
     func updateArrAsync() {
         DispatchQueue.main.async {
             _ = self.forecastWeatherDay
+            _ = self.forecastRain
+            _ = self.forecastWindSpeed
             self.collectionView.reloadData()
         }
     }
@@ -222,6 +240,8 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
         if forecastWeatherDay.count != 0{
             cell.myHour.text = "\(String(indexPath.row)) hour"
             cell.myTemp.text = "\(forecastWeatherDay[indexPath.row]) ℃"
+            cell.myRain.text = "\(forecastRain[indexPath.row])  mm"
+            cell.myWindSpeed.text = "\(forecastWindSpeed[indexPath.row])  m/s"
         } else {
             cell.myTemp.text = "Not forecast"
         }
