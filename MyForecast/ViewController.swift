@@ -69,7 +69,9 @@ class ViewController: UIViewController {
             if let data, let city = try? JSONDecoder().decode(WeaterCity.self, from: data) {
                 self.arrayCityForecast.removeAll()
                 
-                self.queue.async(flags: .barrier) {
+                DispatchQueue.main.sync {
+                    
+//                .async(flags: .barrier) {
                     guard let dataArray = city.results else { return }
                     for elem in dataArray {
                         guard let lat = elem.latitude else {return}
@@ -88,7 +90,7 @@ class ViewController: UIViewController {
         }
         taskCity.resume()
         sleep(1)
-
+        print(arrayCityForecast)
         
         let urlString = "https://api.open-meteo.com/v1/gfs?latitude=\(arrayCityForecast[0])&longitude=\(arrayCityForecast[1])&hourly=temperature_2m,precipitation,windspeed_10m&forecast_days=1&timezone=auto"
         
@@ -218,6 +220,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
         
         if forecastWeatherDay.count != 0{
+            cell.myHour.text = "\(String(indexPath.row)) hour"
             cell.myTemp.text = "\(forecastWeatherDay[indexPath.row]) ℃"
         } else {
             cell.myTemp.text = "Not forecast"

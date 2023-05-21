@@ -23,8 +23,8 @@ class CustomCell: UICollectionViewCell {
         
         NSLayoutConstraint.activate([
         
-            myHour.topAnchor.constraint(equalTo: topAnchor),
-            myHour.leadingAnchor.constraint(equalTo: leadingAnchor),
+            myHour.topAnchor.constraint(equalTo: topAnchor, constant: -30),
+            myHour.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             myHour.trailingAnchor.constraint(equalTo: trailingAnchor),
             myHour.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
