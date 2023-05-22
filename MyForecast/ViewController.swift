@@ -17,6 +17,7 @@ class ViewController: UIViewController {
     var arrayCityForecast: [String] = []
     var forecastRain: [String] = []
     var forecastWindSpeed: [String] = []
+    var forecastDate: [String] = []
     var currentData: Int = {
         let date = Date()
         let calendar = Calendar.current
@@ -61,37 +62,38 @@ class ViewController: UIViewController {
     
     @objc func requestForecastWeather() {
         myTextFieldTemperature.resignFirstResponder()
-        myLabelTemperature.text = "loading..."
-        
-        let urlCityString = "https://geocoding-api.open-meteo.com/v1/search?name=\(myTextFieldTemperature.text!.replacingOccurrences(of: " ", with: ""))&count=1&language=en&format=json"
-        
-        guard let urlcity = URL(string: urlCityString) else {fatalError("fail")}
-        let requestCity = URLRequest(url: urlcity)
-        
-        let taskCity = URLSession.shared.dataTask(with: requestCity) { data, response, error in
-            if let data, let city = try? JSONDecoder().decode(WeaterCity.self, from: data) {
-                self.arrayCityForecast.removeAll()
-                
-                
-                
-                self.queue.async(flags: .barrier) {
-                    guard let dataArray = city.results else { return }
-                    for elem in dataArray {
-                        guard let lat = elem.latitude else {return}
-                        guard let lon = elem.longitude else {return}
-                        self.arrayCityForecast.append(String(format:"%.02f", lat))
-                        self.arrayCityForecast.append(String(format:"%.02f", lon))
-                        self.updateTupleAsync()
+        if myTextFieldTemperature.text!.replacingOccurrences(of: " ", with: "") != ""{
+            myLabelTemperature.text = "Loading..."
+            
+            let urlCityString = "https://geocoding-api.open-meteo.com/v1/search?name=\(myTextFieldTemperature.text!.replacingOccurrences(of: " ", with: ""))&count=1&language=en&format=json"
+            
+            guard let urlcity = URL(string: urlCityString) else {fatalError("fail")}
+            let requestCity = URLRequest(url: urlcity)
+            
+            let taskCity = URLSession.shared.dataTask(with: requestCity) { data, response, error in
+                if let data, let city = try? JSONDecoder().decode(WeaterCity.self, from: data) {
+                    self.arrayCityForecast.removeAll()
+                    
+                    
+                    
+                    self.queue.async(flags: .barrier) {
+                        guard let dataArray = city.results else { return }
+                        for elem in dataArray {
+                            guard let lat = elem.latitude else {return}
+                            guard let lon = elem.longitude else {return}
+                            self.arrayCityForecast.append(String(format:"%.02f", lat))
+                            self.arrayCityForecast.append(String(format:"%.02f", lon))
+                            self.updateTupleAsync()
+                        }
                     }
+                    
+                } else {
+                    print("Fail")
                 }
-                
-            } else {
-                print("Fail")
             }
-        }
-        taskCity.resume()
-                sleep(2)
-        
+            taskCity.resume()
+            sleep(2)
+            
             
             let urlString = "https://api.open-meteo.com/v1/gfs?latitude=\(self.arrayCityForecast[0])&longitude=\(self.arrayCityForecast[1])&hourly=temperature_2m,precipitation,windspeed_10m&windspeed_unit=ms&forecast_days=1&timezone=auto"
             
@@ -107,7 +109,6 @@ class ViewController: UIViewController {
                             guard let temp = weather.hourly?.temperature2M![elem] else {return}
                             self?.forecastWeatherDay.append(String(Int(temp)))
                         }
-                        self?.updateArrAsync()
                     }
                     
                     self.queue.async(flags: .barrier){ [weak self] in
@@ -115,12 +116,27 @@ class ViewController: UIViewController {
                             guard let rain = weather.hourly?.precipitation![elem] else {return}
                             self?.forecastRain.append(String(Double(rain)))
                         }
-                        self?.updateArrAsync()
                     }
                     self.queue.async(flags: .barrier){ [weak self] in
                         for elem in 0..<24{
-                            guard let windSpeed = weather.hourly?.windspeed10M![elem] else {return}
+                            guard let windSpeed = weather.hourly?.windspeed10M![elem] else { return }
                             self?.forecastWindSpeed.append(String(Double(windSpeed)))
+                        }
+                    }
+                    self.queue.async(flags: .barrier){ [weak self] in
+                        for elem in 0..<24{
+                            guard let StringDate = weather.hourly?.time![elem] else { return }
+                            
+                            let dateString = StringDate + ":00Z"
+                            let dateFormatter = ISO8601DateFormatter()
+                            let date = dateFormatter.date(from: dateString)
+                            
+                            let dateFormatter2 = ISO8601DateFormatter()
+                            dateFormatter2.formatOptions = .withFullTime
+                            var strDate = dateFormatter2.string(from: date!)
+                            strDate.removeLast(4)
+                            
+                            self?.forecastDate.append(strDate)
                         }
                         self?.updateArrAsync()
                     }
@@ -136,6 +152,11 @@ class ViewController: UIViewController {
             }
             
             task.resume()
+        } else {
+            let alert = UIAlertController(title: "", message: "The city field cannot be empty", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+        }
         }
         
     func updateArrAsync() {
@@ -143,6 +164,7 @@ class ViewController: UIViewController {
             _ = self.forecastWeatherDay
             _ = self.forecastRain
             _ = self.forecastWindSpeed
+            _ = self.forecastDate
             self.collectionView.reloadData()
         }
     }
@@ -240,7 +262,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
         
         if forecastWeatherDay.count != 0{
             
-            cell.myHour.text = "\(String(indexPath.row)) hour"
+            cell.myHour.text = "\(forecastDate[indexPath.row])"
             cell.myTemp.text = "\(forecastWeatherDay[indexPath.row]) ℃"
             cell.myRain.text = "\(forecastRain[indexPath.row])  mm"
             cell.myWindSpeed.text = "\(forecastWindSpeed[indexPath.row])  m/s"

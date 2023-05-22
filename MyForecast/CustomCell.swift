@@ -21,8 +21,6 @@ class CustomCell: UICollectionViewCell {
         addSubview(myRain)
         addSubview(myWindSpeed)
         
-
-        
         myHour.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
