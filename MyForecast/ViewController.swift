@@ -8,7 +8,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let backGroundImage = UIImageView(frame: UIScreen.main.bounds )
+    let backGroundImage = UIImageView(frame: UIScreen.main.bounds)
     var myLabelTemperature = UILabel()
     var myTextFieldTemperature = UITextField()
     var myButtonTemperature = UIButton()
@@ -145,12 +145,12 @@ class ViewController: UIViewController {
                         guard let temp = weather.hourly?.temperature2M![self!.currentData] else {return}
                         self?.myLabelTemperature.text = "\(Int(temp))" + "℃"
                         
+                        
                     }
                 } else {
                     print("Fail")
                 }
             }
-            
             task.resume()
         } else {
             let alert = UIAlertController(title: "", message: "The city field cannot be empty", preferredStyle: UIAlertController.Style.alert)
@@ -200,12 +200,18 @@ class ViewController: UIViewController {
             view.addSubview(myTextFieldTemperature)
 
         }
-        
+
         
         func setupBackGround() {
-            backGroundImage.image = UIImage(named: "GoodDay")
-            backGroundImage.contentMode = .scaleAspectFill
-
+            
+            switch(currentData) {
+            case 0,1,2,3,4,5,20,21,22,23,24:
+                backGroundImage.image = UIImage(named: "Night")
+                backGroundImage.contentMode = .scaleAspectFill
+            default:
+                backGroundImage.image = UIImage(named: "GoodDay")
+                backGroundImage.contentMode = .scaleAspectFill
+            }
             view.addSubview(backGroundImage)
 
         }
