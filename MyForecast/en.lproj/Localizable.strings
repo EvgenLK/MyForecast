@@ -1,0 +1,10 @@
+
+
+"placeholder_in_view" = "Placeholder";
+"searh_button" = "Search";
+"current_temp_view" = "Enter the city";
+"forecast_collectionview" = "Not forecast";
+"loading_view" = "Loading...";
+
+//alert
+"alert_message_empty_city" = "The city field cannot be empty";

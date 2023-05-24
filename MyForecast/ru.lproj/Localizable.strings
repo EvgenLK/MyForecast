@@ -1,0 +1,10 @@
+
+
+"placeholder_in_view" = "Введите город";
+"searh_button" = "Поиск";
+"current_temp_view" = "Введите город";
+"forecast_collectionview" = "Нет прогноза";
+"loading_view" = "Загрузка...";
+
+//alert
+"alert_message_empty_city" = "Поле города не может быть пустым";

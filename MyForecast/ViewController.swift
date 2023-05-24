@@ -64,10 +64,10 @@ class ViewController: UIViewController {
 
         myButtonTemperature = UIButton(frame: CGRect(x: 310, y: 95, width: 100, height: 50))
         myButtonTemperature.layer.cornerRadius = 15
-        myButtonTemperature.setTitle("Search", for: .normal)
+        myButtonTemperature.setTitle("searh_button".localized, for: .normal)
         myButtonTemperature.backgroundColor = .blue
         myButtonTemperature.setTitleColor(.systemBlue, for: .highlighted)
-        myButtonTemperature.setTitle("Search", for: .highlighted)
+        myButtonTemperature.setTitle("searh_button".localized, for: .highlighted)
         myButtonTemperature.layer.borderWidth = 0.5
         myButtonTemperature.addTarget(self, action: #selector(requestForecastWeather), for: .touchUpInside)
 
@@ -79,7 +79,7 @@ class ViewController: UIViewController {
     @objc func requestForecastWeather() {
         myTextFieldTemperature.resignFirstResponder()
         if myTextFieldTemperature.text!.replacingOccurrences(of: " ", with: "") != ""{
-            myCurrentTemp.text = "Loading..."
+            myCurrentTemp.text = "loading_view".localized
             
             let urlCityString = "https://geocoding-api.open-meteo.com/v1/search?name=\(myTextFieldTemperature.text!.replacingOccurrences(of: " ", with: ""))&count=1&language=en&format=json"
             
@@ -205,7 +205,7 @@ class ViewController: UIViewController {
             }
             task.resume()
         } else {
-            let alert = UIAlertController(title: "", message: "The city field cannot be empty", preferredStyle: UIAlertController.Style.alert)
+            let alert = UIAlertController(title: "", message: "alert_message_empty_city".localized, preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
@@ -235,7 +235,7 @@ class ViewController: UIViewController {
             myCurrentTemp = UILabel(frame: CGRect(x: 10, y: 180, width: view.bounds.width, height: 100))
             myCurrentTemp.font = UIFont(name: "ArialMT", size: 50)
             myCurrentTemp.textColor = .white
-            myCurrentTemp.text = "Enter the city"
+            myCurrentTemp.text = "current_temp_view".localized
             myCurrentTemp.numberOfLines = 0
             myCurrentTemp.textAlignment = .center
             
@@ -273,7 +273,7 @@ class ViewController: UIViewController {
             
             myTextFieldTemperature = UITextField(frame: CGRect(x: 70, y: 100, width: self.view.bounds.width / 2 + 30, height: 40))
             myTextFieldTemperature.backgroundColor = .white
-            myTextFieldTemperature.placeholder = "Placeholder"
+            myTextFieldTemperature.placeholder = "placeholder_in_view".localized
             myTextFieldTemperature.layer.cornerRadius = 10
             myTextFieldTemperature.layer.opacity = 0.5
             view.addSubview(myTextFieldTemperature)
@@ -357,7 +357,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
             cell.myWindSpeed.text = "\(forecastWindSpeed[indexPath.row])  m/s"
             cell.myImage.image = UIImage(named: myIconWeather[indexPath.row])
         } else {
-            cell.myTemp.text = "Not forecast"
+            cell.myTemp.text = "forecast_collectionview".localized
         }
         
         return cell
@@ -368,7 +368,11 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
 
 
 
-
+extension String {
+    var localized: String {
+        return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: "")
+    }
+}
     
     
     
