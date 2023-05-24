@@ -174,7 +174,11 @@ class ViewController: UIViewController {
                                             self?.myIconWeather.append("rainNight")
                                         }
                                     default:
-                                        self?.myIconWeather.append("sun")
+                                        if precipitation == 0{
+                                            self?.myIconWeather.append("sun")
+                                        } else if precipitation > 1.0 {
+                                            self?.myIconWeather.append("rain")
+                                        }
                                         
                                     }
                                 }
