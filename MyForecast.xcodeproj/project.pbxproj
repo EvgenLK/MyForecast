@@ -12,7 +12,6 @@
 		9B4DFA9429FF820F003DBC27 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4DFA9329FF820F003DBC27 /* ViewController.swift */; };
 		9B4DFA9A29FF820F003DBC27 /* MyForecast.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9B4DFA9829FF820F003DBC27 /* MyForecast.xcdatamodeld */; };
 		9B4DFA9C29FF8210003DBC27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B4DFA9B29FF8210003DBC27 /* Assets.xcassets */; };
-		9B4DFA9F29FF8210003DBC27 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B4DFA9D29FF8210003DBC27 /* LaunchScreen.storyboard */; };
 		9B684AF02A158A9800BD5154 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B684AEF2A158A9800BD5154 /* CustomCell.swift */; };
 		9B7C647E2A0073C100EF0E54 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7C647D2A0073C100EF0E54 /* WeatherData.swift */; };
 		9B842A572A0741FE00A6B1C8 /* WeatherCity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B842A562A0741FE00A6B1C8 /* WeatherCity.swift */; };
@@ -25,7 +24,6 @@
 		9B4DFA9329FF820F003DBC27 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9B4DFA9929FF820F003DBC27 /* MyForecast.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyForecast.xcdatamodel; sourceTree = "<group>"; };
 		9B4DFA9B29FF8210003DBC27 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		9B4DFA9E29FF8210003DBC27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9B4DFAA029FF8210003DBC27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B684AEF2A158A9800BD5154 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		9B7C647D2A0073C100EF0E54 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
@@ -69,7 +67,6 @@
 				9B7C647D2A0073C100EF0E54 /* WeatherData.swift */,
 				9B842A562A0741FE00A6B1C8 /* WeatherCity.swift */,
 				9B4DFA9B29FF8210003DBC27 /* Assets.xcassets */,
-				9B4DFA9D29FF8210003DBC27 /* LaunchScreen.storyboard */,
 				9B4DFAA029FF8210003DBC27 /* Info.plist */,
 				9B4DFA9829FF820F003DBC27 /* MyForecast.xcdatamodeld */,
 			);
@@ -117,7 +114,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
+				ru,
 			);
 			mainGroup = 9B4DFA8329FF820F003DBC27;
 			productRefGroup = 9B4DFA8D29FF820F003DBC27 /* Products */;
@@ -134,7 +131,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B4DFA9F29FF8210003DBC27 /* LaunchScreen.storyboard in Resources */,
 				9B4DFA9C29FF8210003DBC27 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -158,22 +154,12 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXVariantGroup section */
-		9B4DFA9D29FF8210003DBC27 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				9B4DFA9E29FF8210003DBC27 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
 		9B4DFAA129FF8210003DBC27 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -234,6 +220,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
