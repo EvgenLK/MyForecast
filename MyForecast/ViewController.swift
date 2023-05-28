@@ -108,8 +108,15 @@ class ViewController: UIViewController {
                 }
             }
             taskCity.resume()
-            sleep(3)
+                
+            var sleepcity = true
             
+            while sleepcity {
+                sleep(1)
+                if !self.arrayCityForecast.isEmpty {
+                    sleepcity = false
+                }
+            }
             
             let urlString = "https://api.open-meteo.com/v1/gfs?latitude=\(self.arrayCityForecast[0])&longitude=\(self.arrayCityForecast[1])&hourly=temperature_2m,precipitation,windspeed_10m&windspeed_unit=ms&forecast_days=1&timezone=auto"
             
