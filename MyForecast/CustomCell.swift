@@ -13,6 +13,7 @@ class CustomCell: UICollectionViewCell {
     let myHour = UILabel()
     let myRain = UILabel()
     let myWindSpeed = UILabel()
+    let myImage = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,12 +21,16 @@ class CustomCell: UICollectionViewCell {
         addSubview(myHour)
         addSubview(myRain)
         addSubview(myWindSpeed)
+        addSubview(myImage)
+        
+
+        
         
         myHour.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
         
-            myHour.topAnchor.constraint(equalTo: topAnchor, constant: -30),
+            myHour.topAnchor.constraint(equalTo: topAnchor, constant: -35),
             myHour.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             myHour.trailingAnchor.constraint(equalTo: trailingAnchor),
             myHour.bottomAnchor.constraint(equalTo: bottomAnchor)
@@ -60,10 +65,20 @@ class CustomCell: UICollectionViewCell {
             myWindSpeed.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             myWindSpeed.trailingAnchor.constraint(equalTo: trailingAnchor),
             myWindSpeed.bottomAnchor.constraint(equalTo: bottomAnchor)
+            
         ])
         
-        
-        
+//        myImage.translatesAutoresizingMaskIntoConstraints = false
+
+
+//        NSLayoutConstraint.activate([
+//
+//            myImage.topAnchor.constraint(equalTo: topAnchor, constant: -70),
+//            myImage.leadingAnchor.constraint(equalTo: leadingAnchor),
+//            myImage.trailingAnchor.constraint(equalTo: trailingAnchor),
+//            myImage.bottomAnchor.constraint(equalTo: bottomAnchor)
+//        ])
+        myImage.frame = CGRect(x: 5, y: -40, width: 50, height: 50)
         
     }
     
