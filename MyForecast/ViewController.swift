@@ -108,66 +108,69 @@ class ViewController: UIViewController {
                 }
             }
             taskCity.resume()
-                
-            var sleepcity = true
             
-            while sleepcity {
+            var boolCity = false
+            
+            while !boolCity {
                 sleep(1)
                 if !self.arrayCityForecast.isEmpty {
-                    sleepcity = false
+                    boolCity = true
                 }
             }
-            
-            let urlString = "https://api.open-meteo.com/v1/gfs?latitude=\(self.arrayCityForecast[0])&longitude=\(self.arrayCityForecast[1])&hourly=temperature_2m,precipitation,windspeed_10m&windspeed_unit=ms&forecast_days=1&timezone=auto"
-            
-            guard let url = URL(string: urlString) else { return }
-            let request = URLRequest(url: url)
-            
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-                if let data, let weather = try? JSONDecoder().decode(WeaterData.self, from: data) {
-                    self.forecastWeatherDay.removeAll()
-                    
-                    self.queue.async(flags: .barrier){ [weak self] in
-                        //
-                        for elem in 0..<24{
-                            if elem % 3 == 0{
-                                guard let temp = weather.hourly?.temperature2M![elem] else {return}
-                                self?.forecastWeatherDay.append(String(Int(temp)))
-                            }
-                        }
 
-                        for elem in 0..<24{
-                            if elem % 3 == 0{
-                                guard let rain = weather.hourly?.precipitation![elem] else {return}
-                                self?.forecastRain.append(String(Double(rain)))
-                            }
-                        }
-                    
-                        for elem in 0..<24{
-                            if elem % 3 == 0{
-                                guard let windSpeed = weather.hourly?.windspeed10M![elem] else { return }
-                                self?.forecastWindSpeed.append(String(Double(windSpeed)))
-                            }
-                        }
-
-                        for elem in 0..<24{
-                            if elem % 3 == 0{
-                                guard let StringDate = weather.hourly?.time![elem] else { return }
-                                
-                                let dateString = StringDate + ":00Z"
-                                let dateFormatter = ISO8601DateFormatter()
-                                let date = dateFormatter.date(from: dateString)
-                                
-                                let dateFormatter2 = ISO8601DateFormatter()
-                                dateFormatter2.formatOptions = .withFullTime
-                                var strDate = dateFormatter2.string(from: date!)
-                                strDate.removeLast(4)
-                                
-                                self?.forecastDate.append(strDate)
-                            }
-                        }
+            if boolCity == true {
+                
+                
+                let urlString = "https://api.open-meteo.com/v1/gfs?latitude=\(self.arrayCityForecast[0])&longitude=\(self.arrayCityForecast[1])&hourly=temperature_2m,precipitation,windspeed_10m&windspeed_unit=ms&forecast_days=1&timezone=auto"
+                
+                guard let url = URL(string: urlString) else { return }
+                let request = URLRequest(url: url)
+                
+                let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                    if let data, let weather = try? JSONDecoder().decode(WeaterData.self, from: data) {
+                        self.forecastWeatherDay.removeAll()
                         
-
+                        self.queue.async(flags: .barrier){ [weak self] in
+                            //
+                            for elem in 0..<24{
+                                if elem % 3 == 0{
+                                    guard let temp = weather.hourly?.temperature2M![elem] else {return}
+                                    self?.forecastWeatherDay.append(String(Int(temp)))
+                                }
+                            }
+                            
+                            for elem in 0..<24{
+                                if elem % 3 == 0{
+                                    guard let rain = weather.hourly?.precipitation![elem] else {return}
+                                    self?.forecastRain.append(String(Double(rain)))
+                                }
+                            }
+                            
+                            for elem in 0..<24{
+                                if elem % 3 == 0{
+                                    guard let windSpeed = weather.hourly?.windspeed10M![elem] else { return }
+                                    self?.forecastWindSpeed.append(String(Double(windSpeed)))
+                                }
+                            }
+                            
+                            for elem in 0..<24{
+                                if elem % 3 == 0{
+                                    guard let StringDate = weather.hourly?.time![elem] else { return }
+                                    
+                                    let dateString = StringDate + ":00Z"
+                                    let dateFormatter = ISO8601DateFormatter()
+                                    let date = dateFormatter.date(from: dateString)
+                                    
+                                    let dateFormatter2 = ISO8601DateFormatter()
+                                    dateFormatter2.formatOptions = .withFullTime
+                                    var strDate = dateFormatter2.string(from: date!)
+                                    strDate.removeLast(4)
+                                    
+                                    self?.forecastDate.append(strDate)
+                                }
+                            }
+                            
+                            
                             
                             for elem in 0..<24{
                                 if elem % 3 == 0{
@@ -176,47 +179,53 @@ class ViewController: UIViewController {
                                     switch elem {
                                     case 0,1,2,3,4,5,20,21,22,23,24:
                                         if precipitation == 0{
-                                            self?.myIconWeather.append("clearNight")
-                                        } else if precipitation > 1.0 {
+                                            self?.myIconWeather.append("clearnight")
+                                        } else if precipitation > 0.5 {
                                             self?.myIconWeather.append("rainNight")
                                         }
                                     default:
                                         if precipitation == 0{
                                             self?.myIconWeather.append("sun")
-                                        } else if precipitation > 1.0 {
+                                        } else if precipitation > 0.5 {
                                             self?.myIconWeather.append("rain")
                                         }
                                         
                                     }
                                 }
                             }
+                            
+                            self?.updateArrAsync()
+                        }
                         
-                        self?.updateArrAsync()
+                        DispatchQueue.main.async { [weak self] in
+                            guard let temp = weather.hourly?.temperature2M![self!.currentHour] else {return}
+                            guard let precipitation = weather.hourly?.precipitation![self!.currentHour] else {return}
+                            guard let windSpeed = weather.hourly?.windspeed10M![self!.currentHour] else {return}
+                            
+                            self?.myCurrentTemp.text = "\(Int(temp))" + "℃"
+                            self?.myCurrentPrecipitation.text = "\(String(precipitation)) mm"
+                            self?.myCurrentWind.text = "\(String(windSpeed)) m/s"
+                            self?.myCurrentDate.text = self?.currentDateforLabel
+                            
+                            
+                        }
+                    } else {
+                        print("Fail")
                     }
-                    
-                    DispatchQueue.main.async { [weak self] in
-                        guard let temp = weather.hourly?.temperature2M![self!.currentHour] else {return}
-                        guard let precipitation = weather.hourly?.precipitation![self!.currentHour] else {return}
-                        guard let windSpeed = weather.hourly?.windspeed10M![self!.currentHour] else {return}
-
-                        self?.myCurrentTemp.text = "\(Int(temp))" + "℃"
-                        self?.myCurrentPrecipitation.text = "\(String(precipitation)) mm"
-                        self?.myCurrentWind.text = "\(String(windSpeed)) m/s"
-                        self?.myCurrentDate.text = self?.currentDateforLabel
-                        
-                        
-                    }
-                } else {
-                    print("Fail")
                 }
+                task.resume()
+            }else {
+                let alert = UIAlertController(title: "", message: "alert_not_city_request".localized, preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
-            task.resume()
+            
         } else {
             let alert = UIAlertController(title: "", message: "alert_message_empty_city".localized, preferredStyle: UIAlertController.Style.alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
             self.present(alert, animated: true, completion: nil)
         }
-        }
+    }
         
     func updateArrAsync() {
         DispatchQueue.main.async {
@@ -225,7 +234,6 @@ class ViewController: UIViewController {
             _ = self.forecastWindSpeed
             _ = self.forecastDate
             _ = self.myIconWeather
-            print(self.myIconWeather)
             self.collectionView.reloadData()
         }
     }
