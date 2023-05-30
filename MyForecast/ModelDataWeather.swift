@@ -21,12 +21,17 @@ func modelDatFormat(StringDate: String) -> String {
     let dateFormatter = ISO8601DateFormatter()
     let date = dateFormatter.date(from: dateString)
     
-    let dateFormatter2 = ISO8601DateFormatter()
-    dateFormatter2.formatOptions = .withFullTime
-    var strDate = dateFormatter2.string(from: date!)
-    strDate.removeLast(4)
     
-    return strDate
+    let dateFormatterTime = ISO8601DateFormatter()
+    dateFormatterTime.formatOptions = .withFullTime
+    var strTime = dateFormatterTime.string(from: date!)
+    strTime.removeLast(4)
+    
+    let dateFormatterDate = ISO8601DateFormatter()
+    dateFormatterDate.formatOptions = .withFullDate
+    let strDate = dateFormatterDate.string(from: date!)
+    var strMD = String(strDate.dropFirst(5))
+    return "\(strMD) \(strTime)"
 }
 
 func modelimageIcon(precipitation: Int, elem: Int) -> String {
