@@ -16,6 +16,7 @@
 		9B684AF02A158A9800BD5154 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B684AEF2A158A9800BD5154 /* CustomCell.swift */; };
 		9B7C647E2A0073C100EF0E54 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B7C647D2A0073C100EF0E54 /* WeatherData.swift */; };
 		9B842A572A0741FE00A6B1C8 /* WeatherCity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B842A562A0741FE00A6B1C8 /* WeatherCity.swift */; };
+		9BA9AF452A255BDD005C8FD8 /* ModelDataWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA9AF442A255BDD005C8FD8 /* ModelDataWeather.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		9B684AEF2A158A9800BD5154 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		9B7C647D2A0073C100EF0E54 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		9B842A562A0741FE00A6B1C8 /* WeatherCity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCity.swift; sourceTree = "<group>"; };
+		9BA9AF442A255BDD005C8FD8 /* ModelDataWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDataWeather.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 				9B4DFA9129FF820F003DBC27 /* SceneDelegate.swift */,
 				9B4DFA9329FF820F003DBC27 /* ViewController.swift */,
 				9B684AEF2A158A9800BD5154 /* CustomCell.swift */,
+				9BA9AF442A255BDD005C8FD8 /* ModelDataWeather.swift */,
 				9B65CB0F2A1EC487009E0EDB /* Localizable.strings */,
 				9B7C647D2A0073C100EF0E54 /* WeatherData.swift */,
 				9B842A562A0741FE00A6B1C8 /* WeatherCity.swift */,
@@ -151,6 +154,7 @@
 				9B7C647E2A0073C100EF0E54 /* WeatherData.swift in Sources */,
 				9B4DFA9429FF820F003DBC27 /* ViewController.swift in Sources */,
 				9B4DFA9029FF820F003DBC27 /* AppDelegate.swift in Sources */,
+				9BA9AF452A255BDD005C8FD8 /* ModelDataWeather.swift in Sources */,
 				9B4DFA9229FF820F003DBC27 /* SceneDelegate.swift in Sources */,
 				9B684AF02A158A9800BD5154 /* CustomCell.swift in Sources */,
 				9B842A572A0741FE00A6B1C8 /* WeatherCity.swift in Sources */,

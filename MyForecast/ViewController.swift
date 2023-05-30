@@ -24,6 +24,9 @@ class ViewController: UIViewController {
     var forecastRain: [String] = []
     var forecastWindSpeed: [String] = []
     var forecastDate: [String] = []
+    
+    var dataForecastWeather: [modelForecast] = []
+    
     var currentHour: Int = {
         let date = Date()
         let calendar = Calendar.current
@@ -130,71 +133,28 @@ class ViewController: UIViewController {
                     if let data, let weather = try? JSONDecoder().decode(WeaterData.self, from: data) {
                         self.forecastWeatherDay.removeAll()
                         
+                        
                         self.queue.async(flags: .barrier){ [weak self] in
-                            //
-                            for elem in 0..<24{
-                                if elem % 3 == 0{
-                                    guard let temp = weather.hourly?.temperature2M![elem] else {return}
-                                    self?.forecastWeatherDay.append(String(Int(temp)))
-                                }
-                            }
                             
                             for elem in 0..<24{
                                 if elem % 3 == 0{
-                                    guard let rain = weather.hourly?.precipitation![elem] else {return}
-                                    self?.forecastRain.append(String(Double(rain)))
-                                }
-                            }
-                            
-                            for elem in 0..<24{
-                                if elem % 3 == 0{
+                                    guard let temp = weather.hourly?.temperature2M![elem] else { return }
+                                    guard let precipitation = weather.hourly?.precipitation![elem] else { return }
                                     guard let windSpeed = weather.hourly?.windspeed10M![elem] else { return }
-                                    self?.forecastWindSpeed.append(String(Double(windSpeed)))
-                                }
-                            }
-                            
-                            for elem in 0..<24{
-                                if elem % 3 == 0{
                                     guard let StringDate = weather.hourly?.time![elem] else { return }
                                     
-                                    let dateString = StringDate + ":00Z"
-                                    let dateFormatter = ISO8601DateFormatter()
-                                    let date = dateFormatter.date(from: dateString)
                                     
-                                    let dateFormatter2 = ISO8601DateFormatter()
-                                    dateFormatter2.formatOptions = .withFullTime
-                                    var strDate = dateFormatter2.string(from: date!)
-                                    strDate.removeLast(4)
-                                    
-                                    self?.forecastDate.append(strDate)
-                                }
-                            }
-                            
-                            
-                            
-                            for elem in 0..<24{
-                                if elem % 3 == 0{
-                                    guard let precipitation = weather.hourly?.precipitation![elem] else { return }
-                                    
-                                    switch elem {
-                                    case 0,1,2,3,4,5,20,21,22,23,24:
-                                        if precipitation == 0{
-                                            self?.myIconWeather.append("clearnight")
-                                        } else if precipitation > 0.5 {
-                                            self?.myIconWeather.append("rainNight")
-                                        }
-                                    default:
-                                        if precipitation == 0{
-                                            self?.myIconWeather.append("sun")
-                                        } else if precipitation > 0.5 {
-                                            self?.myIconWeather.append("rain")
-                                        }
-                                        
-                                    }
+                                    let dayForecast = modelForecast(date: modelDatFormat(StringDate: StringDate),
+                                                                    temp: String(Int(temp)),
+                                                                    windSpeed: String(Double(windSpeed)),
+                                                                    precipitation: String(Double(precipitation)),
+                                                                    imageIcon: modelimageIcon(precipitation: Int(precipitation), elem: elem))
+                                    self?.dataForecastWeather.append(dayForecast)
                                 }
                             }
                             
                             self?.updateArrAsync()
+
                         }
                         
                         DispatchQueue.main.async { [weak self] in
@@ -229,11 +189,7 @@ class ViewController: UIViewController {
         
     func updateArrAsync() {
         DispatchQueue.main.async {
-            _ = self.forecastWeatherDay
-            _ = self.forecastRain
-            _ = self.forecastWindSpeed
-            _ = self.forecastDate
-            _ = self.myIconWeather
+            _ = self.dataForecastWeather
             self.collectionView.reloadData()
         }
     }
@@ -358,19 +314,19 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
         return CGSize(width: collectionView.frame.width/3, height: collectionView.frame.height/2)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return forecastWeatherDay.count != 0 ? forecastWeatherDay.count: 1
+        return dataForecastWeather.count != 0 ? dataForecastWeather.count: 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
         
-        if forecastWeatherDay.count != 0{
+        if dataForecastWeather.count != 0{
             
-            cell.myHour.text = "\(forecastDate[indexPath.row]) hour"
-            cell.myTemp.text = "\(forecastWeatherDay[indexPath.row]) ℃"
-            cell.myRain.text = "\(forecastRain[indexPath.row])  mm"
-            cell.myWindSpeed.text = "\(forecastWindSpeed[indexPath.row])  m/s"
-            cell.myImage.image = UIImage(named: myIconWeather[indexPath.row])
+            cell.myHour.text = "\(dataForecastWeather[indexPath.row].date) hour"
+            cell.myTemp.text = "\(dataForecastWeather[indexPath.row].temp) ℃"
+            cell.myRain.text = "\(dataForecastWeather[indexPath.row].precipitation)  mm"
+            cell.myWindSpeed.text = "\(dataForecastWeather[indexPath.row].windSpeed)  m/s"
+            cell.myImage.image = UIImage(named: dataForecastWeather[indexPath.row].imageIcon)
         } else {
             cell.myTemp.text = "forecast_collectionview".localized
         }
