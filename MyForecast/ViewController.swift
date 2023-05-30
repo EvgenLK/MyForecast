@@ -17,14 +17,8 @@ class ViewController: UIViewController {
     var myIconWeather: [String] = []
 
     var myButtonTemperature = UIButton()
-    var forecastWeatherDay: [String] = []
     let queue = DispatchQueue(label: "thred-save-inArray", attributes: .concurrent)
-    let queueImage = DispatchQueue(label: "thred-save-image", attributes: .concurrent)
     var arrayCityForecast: [String] = []
-    var forecastRain: [String] = []
-    var forecastWindSpeed: [String] = []
-    var forecastDate: [String] = []
-    
     var dataForecastWeather: [modelForecast] = []
     
     var currentHour: Int = {
@@ -93,8 +87,6 @@ class ViewController: UIViewController {
                 if let data, let city = try? JSONDecoder().decode(WeaterCity.self, from: data) {
                     self.arrayCityForecast.removeAll()
                     
-                    
-                    
                     self.queue.async(flags: .barrier) {
                         guard let dataArray = city.results else { return }
                         for elem in dataArray {
@@ -124,20 +116,18 @@ class ViewController: UIViewController {
             if boolCity == true {
                 
                 
-                let urlString = "https://api.open-meteo.com/v1/gfs?latitude=\(self.arrayCityForecast[0])&longitude=\(self.arrayCityForecast[1])&hourly=temperature_2m,precipitation,windspeed_10m&windspeed_unit=ms&forecast_days=1&timezone=auto"
+                let urlString = "https://api.open-meteo.com/v1/gfs?latitude=\(self.arrayCityForecast[0])&longitude=\(self.arrayCityForecast[1])&hourly=temperature_2m,precipitation,windspeed_10m&windspeed_unit=ms&forecast_days=2&timezone=auto"
                 
                 guard let url = URL(string: urlString) else { return }
                 let request = URLRequest(url: url)
                 
                 let task = URLSession.shared.dataTask(with: request) { data, response, error in
                     if let data, let weather = try? JSONDecoder().decode(WeaterData.self, from: data) {
-                        self.forecastWeatherDay.removeAll()
-                        
-                        
+
                         self.queue.async(flags: .barrier){ [weak self] in
                             
-                            for elem in 0..<24{
-                                if elem % 3 == 0{
+                            for elem in 0..<48{
+                                if elem % 4 == 0{
                                     guard let temp = weather.hourly?.temperature2M![elem] else { return }
                                     guard let precipitation = weather.hourly?.precipitation![elem] else { return }
                                     guard let windSpeed = weather.hourly?.windspeed10M![elem] else { return }
@@ -299,6 +289,7 @@ class ViewController: UIViewController {
         cv.layer.opacity = 0.6
         cv.layer.cornerRadius = 20
         cv.showsHorizontalScrollIndicator = false
+        
         return cv
 
     }()
@@ -322,7 +313,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
         
         if dataForecastWeather.count != 0{
             
-            cell.myHour.text = "\(dataForecastWeather[indexPath.row].date) hour"
+            cell.myHour.text = "\(dataForecastWeather[indexPath.row].date)"
             cell.myTemp.text = "\(dataForecastWeather[indexPath.row].temp) ℃"
             cell.myRain.text = "\(dataForecastWeather[indexPath.row].precipitation)  mm"
             cell.myWindSpeed.text = "\(dataForecastWeather[indexPath.row].windSpeed)  m/s"
@@ -336,9 +327,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
     
     
 }
-
-
-
 extension String {
     var localized: String {
         return NSLocalizedString(self, tableName: nil, bundle: Bundle.main, value: "", comment: "")

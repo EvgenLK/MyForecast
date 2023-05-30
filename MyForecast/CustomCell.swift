@@ -32,7 +32,7 @@ class CustomCell: UICollectionViewCell {
         
             myHour.topAnchor.constraint(equalTo: topAnchor, constant: -35),
             myHour.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            myHour.trailingAnchor.constraint(equalTo: trailingAnchor),
+            myHour.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 10),
             myHour.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
         
@@ -68,16 +68,6 @@ class CustomCell: UICollectionViewCell {
             
         ])
         
-//        myImage.translatesAutoresizingMaskIntoConstraints = false
-
-
-//        NSLayoutConstraint.activate([
-//
-//            myImage.topAnchor.constraint(equalTo: topAnchor, constant: -70),
-//            myImage.leadingAnchor.constraint(equalTo: leadingAnchor),
-//            myImage.trailingAnchor.constraint(equalTo: trailingAnchor),
-//            myImage.bottomAnchor.constraint(equalTo: bottomAnchor)
-//        ])
         myImage.frame = CGRect(x: 5, y: -40, width: 50, height: 50)
         
     }
