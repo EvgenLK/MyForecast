@@ -30,7 +30,7 @@ func modelDatFormat(StringDate: String) -> String {
     let dateFormatterDate = ISO8601DateFormatter()
     dateFormatterDate.formatOptions = .withFullDate
     let strDate = dateFormatterDate.string(from: date!)
-    var strMD = String(strDate.dropFirst(5))
+    let strMD = String(strDate.dropFirst(5))
     return "\(strMD) \(strTime)"
 }
 

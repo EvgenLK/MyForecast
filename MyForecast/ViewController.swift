@@ -7,12 +7,13 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController{
     let backGroundImage = UIImageView(frame: UIScreen.main.bounds)
     var myCurrentTemp = UILabel()
     var myCurrentPrecipitation = UILabel()
     var myCurrentWind = UILabel()
     var myTextFieldTemperature = UITextField()
+    var myTFDaysForeC = UITextField()
     var myCurrentDate = UILabel()
     var myIconWeather: [String] = []
 
@@ -32,7 +33,6 @@ class ViewController: UIViewController {
         let currentDateTime = Date()
         let formatter = DateFormatter()
 
-
         formatter.timeStyle = .short
         formatter.dateStyle = .short
         let updDate = formatter.string(from: currentDateTime)
@@ -45,21 +45,23 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         setupBackGround()
         setupLabel()
+//        myTFDaysForeC.delegate = self
         setupButtonTemp()
         self.title = "My Forest Weather"
-
-        
+        setupTFDayForeCAst()
         setupTextField()
         colView()
+        
+        myTFDaysForeC.keyboardType = .numberPad
+
     }
     
     
     func setupButtonTemp() {
 
-        myButtonTemperature = UIButton(frame: CGRect(x: 310, y: 95, width: 100, height: 50))
+        myButtonTemperature = UIButton(frame: CGRect(x: 150 , y: 210, width: 100, height: 50))
         myButtonTemperature.layer.cornerRadius = 15
         myButtonTemperature.setTitle("searh_button".localized, for: .normal)
         myButtonTemperature.backgroundColor = .blue
@@ -70,11 +72,15 @@ class ViewController: UIViewController {
 
         view.addSubview(myButtonTemperature)
 
+        
     }
 
     
     @objc func requestForecastWeather() {
         myTextFieldTemperature.resignFirstResponder()
+        myTFDaysForeC.resignFirstResponder()
+
+        
         if myTextFieldTemperature.text!.replacingOccurrences(of: " ", with: "") != ""{
             myCurrentTemp.text = "loading_view".localized
             
@@ -115,8 +121,8 @@ class ViewController: UIViewController {
 
             if boolCity == true {
                 
-                
-                let urlString = "https://api.open-meteo.com/v1/gfs?latitude=\(self.arrayCityForecast[0])&longitude=\(self.arrayCityForecast[1])&hourly=temperature_2m,precipitation,windspeed_10m&windspeed_unit=ms&forecast_days=2&timezone=auto"
+                let forecastDaysWeather: String = myTFDaysForeC.text!.isEmpty ? "1" : String(myTFDaysForeC.text!)
+                let urlString = "https://api.open-meteo.com/v1/gfs?latitude=\(self.arrayCityForecast[0])&longitude=\(self.arrayCityForecast[1])&hourly=temperature_2m,precipitation,windspeed_10m&windspeed_unit=ms&forecast_days=\(forecastDaysWeather)&timezone=auto"
                 
                 guard let url = URL(string: urlString) else { return }
                 let request = URLRequest(url: url)
@@ -125,8 +131,9 @@ class ViewController: UIViewController {
                     if let data, let weather = try? JSONDecoder().decode(WeaterData.self, from: data) {
 
                         self.queue.async(flags: .barrier){ [weak self] in
-                            
-                            for elem in 0..<48{
+                            self!.dataForecastWeather.removeAll()
+
+                            for elem in 0..<24 * Int(forecastDaysWeather)!{
                                 if elem % 4 == 0{
                                     guard let temp = weather.hourly?.temperature2M![elem] else { return }
                                     guard let precipitation = weather.hourly?.precipitation![elem] else { return }
@@ -193,32 +200,30 @@ class ViewController: UIViewController {
 
         func setupLabel() {
             
-            myCurrentTemp = UILabel(frame: CGRect(x: 10, y: 180, width: view.bounds.width, height: 100))
+            myCurrentDate = UILabel(frame: CGRect(x: 10, y: 350, width: view.bounds.width, height: 40))
+            myCurrentDate.font = UIFont(name: "ArialMT", size: 40)
+            myCurrentDate.textColor = .white
+            myCurrentDate.numberOfLines = 0
+            myCurrentDate.textAlignment = .center
+            
+            myCurrentTemp = UILabel(frame: CGRect(x: 10, y: 380, width: view.bounds.width, height: 100))
             myCurrentTemp.font = UIFont(name: "ArialMT", size: 50)
             myCurrentTemp.textColor = .white
             myCurrentTemp.text = "current_temp_view".localized
             myCurrentTemp.numberOfLines = 0
             myCurrentTemp.textAlignment = .center
             
-            myCurrentPrecipitation = UILabel(frame: CGRect(x: 10, y: 330, width: view.bounds.width, height: 100))
+            myCurrentPrecipitation = UILabel(frame: CGRect(x: 10, y: 440, width: view.bounds.width, height: 100))
             myCurrentPrecipitation.font = UIFont(name: "ArialMT", size: 50)
             myCurrentPrecipitation.textColor = .white
             myCurrentPrecipitation.numberOfLines = 0
             myCurrentPrecipitation.textAlignment = .center
             
-            myCurrentWind = UILabel(frame: CGRect(x: 10, y: 380, width: view.bounds.width, height: 100))
+            myCurrentWind = UILabel(frame: CGRect(x: 10, y: 500, width: view.bounds.width, height: 100))
             myCurrentWind.font = UIFont(name: "ArialMT", size: 50)
             myCurrentWind.textColor = .white
             myCurrentWind.numberOfLines = 0
             myCurrentWind.textAlignment = .center
-            
-            myCurrentDate = UILabel(frame: CGRect(x: 10, y: 150, width: view.bounds.width, height: 40))
-            myCurrentDate.font = UIFont(name: "ArialMT", size: 40)
-            myCurrentDate.textColor = .white
-            myCurrentDate.numberOfLines = 0
-            myCurrentDate.textAlignment = .center
-
-
             
             self.view.addSubview(myCurrentTemp)
             self.view.addSubview(myCurrentPrecipitation)
@@ -230,9 +235,8 @@ class ViewController: UIViewController {
         
         func setupTextField() {
             
-            myTextFieldTemperature.becomeFirstResponder()
             
-            myTextFieldTemperature = UITextField(frame: CGRect(x: 70, y: 100, width: self.view.bounds.width / 2 + 30, height: 40))
+            myTextFieldTemperature = UITextField(frame: CGRect(x: 90, y: 100, width: self.view.bounds.width / 2 + 30, height: 40))
             myTextFieldTemperature.backgroundColor = .white
             myTextFieldTemperature.placeholder = "placeholder_in_view".localized
             myTextFieldTemperature.layer.cornerRadius = 10
@@ -240,7 +244,18 @@ class ViewController: UIViewController {
             view.addSubview(myTextFieldTemperature)
 
         }
-
+    
+    func setupTFDayForeCAst() {
+            
+        
+        myTFDaysForeC = UITextField(frame: CGRect(x: 90, y: 150, width: self.view.bounds.width / 2 + 30, height: 40))
+        myTFDaysForeC.backgroundColor = .white
+        myTFDaysForeC.placeholder = "placeholder_in_day_Forecast".localized
+        myTFDaysForeC.layer.cornerRadius = 10
+        myTFDaysForeC.layer.opacity = 0.5
+        view.addSubview(myTFDaysForeC)
+    }
+    
         
         func setupBackGround() {
             
@@ -299,7 +314,7 @@ class ViewController: UIViewController {
 
 extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     
-
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width/3, height: collectionView.frame.height/2)
@@ -325,7 +340,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDa
         return cell
     }
     
-    
+
 }
 extension String {
     var localized: String {
@@ -333,7 +348,7 @@ extension String {
     }
 }
     
-    
+
     
     
 
