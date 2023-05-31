@@ -30,6 +30,7 @@
 		9B65CB0E2A1EC487009E0EDB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9B65CB102A1EC48A009E0EDB /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9B684AEF2A158A9800BD5154 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
+		9B798A832A28015600692920 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9B7C647D2A0073C100EF0E54 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		9B842A562A0741FE00A6B1C8 /* WeatherCity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCity.swift; sourceTree = "<group>"; };
 		9BA9AF442A255BDD005C8FD8 /* ModelDataWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDataWeather.swift; sourceTree = "<group>"; };
@@ -49,6 +50,7 @@
 		9B4DFA8329FF820F003DBC27 = {
 			isa = PBXGroup;
 			children = (
+				9B798A832A28015600692920 /* README.md */,
 				9B4DFA8E29FF820F003DBC27 /* MyForecast */,
 				9B4DFA8D29FF820F003DBC27 /* Products */,
 			);
