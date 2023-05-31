@@ -5,6 +5,8 @@
 "current_temp_view" = "Введите город";
 "forecast_collectionview" = "Нет прогноза";
 "loading_view" = "Загрузка...";
+"placeholder_in_day_Forecast" = "Введите количество дней";
+
 
 
 //alert

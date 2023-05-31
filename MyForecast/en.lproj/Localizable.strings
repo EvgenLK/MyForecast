@@ -5,6 +5,7 @@
 "current_temp_view" = "Enter the city";
 "forecast_collectionview" = "Not forecast";
 "loading_view" = "Loading...";
+"placeholder_in_day_Forecast" = "Amount of days";
 
 //alert
 "alert_message_empty_city" = "The city field cannot be empty";
