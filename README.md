@@ -7,7 +7,7 @@ Name - My Weather.
   **Screeshoot my app**
  - [Supporting in app](https://t.me/evgenleo)
  - I will be glad to hear feedback from you.
-
+![Icon App](https://github.com/EvgenLK/MyForecast/blob/main/IconApp.jpeg)
 ![Image App](https://github.com/EvgenLK/MyForecast/blob/main/MyForecastWeather.png)
 
 ## Overview
