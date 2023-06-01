@@ -8,12 +8,12 @@ Name - My Weather.
  - [Supporting in app](https://t.me/evgenleo)
  - I will be glad to hear feedback from you.
 
-![Image App](https://github.com/EvgenLK/NoteMeBook/blob/main/NoteMeBook/Assets.xcassets/MyCollages.imageset/MyCollages.png)
+![Image App](https://github.com/EvgenLK/MyForecast/blob/main/MyForecastWeather.png)
 
 ## Overview
 - Written in Swift
 - Uses both UIKit, URLSession.
-- Uses API ![Open-meteo](https://open-meteo.com/)
+- Uses API [Open-meteo](https://open-meteo.com)
 - No External Dependencies
 - Runs vertically only
 - Only Iphone 
