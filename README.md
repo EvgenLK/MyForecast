@@ -8,6 +8,7 @@ Name - My Weather.
  - [Supporting in app](https://t.me/evgenleo)
  - I will be glad to hear feedback from you.
 ![Icon App](https://github.com/EvgenLK/MyForecast/blob/main/IconApp.jpeg)
+
 ![Image App](https://github.com/EvgenLK/MyForecast/blob/main/MyForecastWeather.png)
 
 ## Overview
@@ -24,10 +25,10 @@ Name - My Weather.
 - Localization under EN and RU.
 
 ## About the app
-My application gives the result for one city.
-In it, you can evaluate the temperature, precipitation and wind speed on the main screen.
-In the bottom panel, you can get acquainted with the forecast by the hour by scrolling to the left with a swipe.
-The application will always give you the fastest forecast result in any part of the world.
-Enter cities in English only.
-A beautiful screensaver will delight you when the time of day changes.
+- My application gives the result for one city.
+- In it, you can evaluate the temperature, precipitation and wind speed on the main screen.
+- In the bottom panel, you can get acquainted with the forecast by the hour by scrolling to the left with a swipe.
+- The application will always give you the fastest forecast result in any part of the world.
+- Enter cities in English only.
+- A beautiful screensaver will delight you when the time of day changes.
 
