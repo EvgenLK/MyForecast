@@ -241,6 +241,11 @@ class ViewController: UIViewController{
             myTextFieldTemperature.placeholder = "placeholder_in_view".localized
             myTextFieldTemperature.layer.cornerRadius = 10
             myTextFieldTemperature.layer.opacity = 0.5
+            
+            let indentView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 20))
+            myTextFieldTemperature.leftView = indentView
+            myTextFieldTemperature.leftViewMode = .always
+            
             view.addSubview(myTextFieldTemperature)
 
         }
@@ -253,6 +258,11 @@ class ViewController: UIViewController{
         myTFDaysForeC.placeholder = "placeholder_in_day_Forecast".localized
         myTFDaysForeC.layer.cornerRadius = 10
         myTFDaysForeC.layer.opacity = 0.5
+        
+        let indentView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 20))
+        myTFDaysForeC.leftView = indentView
+        myTFDaysForeC.leftViewMode = .always
+        
         view.addSubview(myTFDaysForeC)
     }
     
