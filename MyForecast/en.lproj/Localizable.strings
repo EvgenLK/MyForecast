@@ -10,3 +10,7 @@
 //alert
 "alert_message_empty_city" = "The city field cannot be empty";
 "alert_not_city_request" = "The server did not respond, please try again.";
+
+//language
+
+"language" = "en";

@@ -12,3 +12,7 @@
 //alert
 "alert_message_empty_city" = "Поле города не может быть пустым";
 "alert_not_city_request" = "Сервер не ответил, повторите попытку";
+
+//language
+
+"language" = "ru";

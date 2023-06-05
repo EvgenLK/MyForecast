@@ -84,7 +84,25 @@ class ViewController: UIViewController{
         if myTextFieldTemperature.text!.replacingOccurrences(of: " ", with: "") != ""{
             myCurrentTemp.text = "loading_view".localized
             
-            let urlCityString = "https://geocoding-api.open-meteo.com/v1/search?name=\(myTextFieldTemperature.text!.replacingOccurrences(of: " ", with: ""))&count=1&language=en&format=json"
+            
+            let cityUtf8: String = {
+                
+                let city: String
+                
+                if "language".localized == "ru" {
+                    city = myTextFieldTemperature.text!.replacingOccurrences(of: " ", with: "").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+                } else {
+                    city = myTextFieldTemperature.text!.replacingOccurrences(of: " ", with: "")
+                }
+                
+                
+                return city
+            }()
+            
+            
+            
+                let urlCityString = "https://geocoding-api.open-meteo.com/v1/search?name=\(cityUtf8)&count=1&language=\("language".localized)&format=json"
+            
             
             guard let urlcity = URL(string: urlCityString) else { return }
             let requestCity = URLRequest(url: urlcity)
@@ -113,9 +131,14 @@ class ViewController: UIViewController{
             var boolCity = false
             
             while !boolCity {
+                var deadline = 3
                 sleep(1)
                 if !self.arrayCityForecast.isEmpty {
                     boolCity = true
+                }else if deadline == 0 {
+                    deadline -= 1
+                    print("the end")
+                    return
                 }
             }
 
