@@ -27,18 +27,20 @@ struct WeaterData: Codable {
 }
 
 // MARK: - Hourly
-struct Hourly: Codable {
-    let time: [String]?
-    let temperature2M, precipitation, windspeed10M: [Double]?
-
-    enum CodingKeys: String, CodingKey {
-        case time
-        case temperature2M = "temperature_2m"
-        case precipitation
-        case windspeed10M = "windspeed_10m"
+extension WeaterData {
+    struct Hourly: Codable {
+        let time: [String]?
+        let temperature2M, precipitation, windspeed10M: [Double]?
+        
+        enum CodingKeys: String, CodingKey {
+            case time
+            case temperature2M = "temperature_2m"
+            case precipitation
+            case windspeed10M = "windspeed_10m"
+        }
     }
-}
-
-// MARK: - HourlyUnits
-struct HourlyUnits: Codable {
+    
+    // MARK: - HourlyUnits
+    struct HourlyUnits: Codable {
+    }
 }
