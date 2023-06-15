@@ -13,36 +13,16 @@ class ViewController: UIViewController{
     override func loadView() {
         view = customViewCurent
         
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "My Forest Weather"
         
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(CustomCell.self, forCellWithReuseIdentifier: "cell")
+
     }
     
-    private let collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.translatesAutoresizingMaskIntoConstraints = false
-        layout.scrollDirection = .horizontal
-        cv.layer.opacity = 0.6
-        cv.layer.cornerRadius = 20
-        cv.showsHorizontalScrollIndicator = false
-        NSLayoutConstraint.activate([
-            cv.topAnchor.constraint(equalTo: cv.topAnchor, constant: cv.bounds.height/1.3 + 40),
-            cv.leadingAnchor.constraint(equalTo: cv.leadingAnchor, constant: 10),
-            cv.trailingAnchor.constraint(equalTo: cv.trailingAnchor, constant: -10),
-            cv.bottomAnchor.constraint(equalTo: cv.bottomAnchor, constant: -10)
-        ])
-        
-        return cv
-        
-    }()
+
     
     //
     //    @objc func requestForecastWeather() {
@@ -174,38 +154,5 @@ class ViewController: UIViewController{
     //
     //
 }
-    extension ViewController: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-        
-        
-        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-            return CGSize(width: collectionView.frame.width/3, height: collectionView.frame.height/2)
-        }
-        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-            //        return dataForecastWeather.count != 0 ? dataForecastWeather.count: 1
-            return 3
-        }
-        
-        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
-//            let weather = dataForecastWeather[indexPath.row]
-//            if dataForecastWeather.count != 0{
-//                cell.configure(with: weather )
-//            } else {
-//                cell.myTemp.text = "forecast_collectionview".localized
-//            }
-            cell.myTemp.text = "forecast_collectionview".localized
-
-            return cell
-            //}
-            //}
-            
-            
-            
-            
-            
-            
-            
-        }
-        
-    }
+    
 

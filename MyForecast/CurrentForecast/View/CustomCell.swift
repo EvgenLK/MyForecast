@@ -74,12 +74,12 @@ class CustomCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with weather: ModelDataWeather) {
-        myHour.text = weather.time
-        myTemp.text = String(weather.temperature_2m)
-        myRain.text = String(weather.precipitation)
-        myWindSpeed.text = String(weather.windspeed_10m)
-        myImage.image = weather.imageIcon
-    }
+//    func configure(with weather: ModelDataWeather) {
+//        myHour.text = weather.time
+//        myTemp.text = String(weather.temperature_2m)
+//        myRain.text = String(weather.precipitation)
+//        myWindSpeed.text = String(weather.windspeed_10m)
+//        myImage.image = weather.imageIcon
+//    }
     
 }
