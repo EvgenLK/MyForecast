@@ -7,21 +7,33 @@
 
 import UIKit
 
-class ViewController: UIViewController{
+
+
+class ViewController: UIViewController, ButtonDelegate {
+
     let customViewCurent = CurentWeather()
-    
+    var weather = [ModelDataWeather]()
+    var lanlon = [ModelLanLon]()
+    var cityUtf8: String = ""
+
     override func loadView() {
         view = customViewCurent
-        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "My Forest Weather"
-        
-
+        customViewCurent.delegateTap = self
     }
     
+    func didPressButton(city: String, day: String ) {
+        self.cityUtf8 = CityUtf8.getCityUtf8(city: city)
+        
+        LanLonCityNetworkService.getLanLon(city: cityUtf8, day: day) { response in
+            self.lanlon = response.lanlon
+        }
+    }
+
 
     
     //
@@ -155,4 +167,31 @@ class ViewController: UIViewController{
     //
 }
     
+
+extension CurentWeather: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
+    
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width/3, height: collectionView.frame.height/2)
+    }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        //        return dataForecastWeather.count != 0 ? dataForecastWeather.count: 1
+        return 3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
+//            let weather = dataForecastWeather[indexPath.row]
+//            if dataForecastWeather.count != 0{
+//                cell.configure(with: weather )
+//            } else {
+//                cell.myTemp.text = "forecast_collectionview".localized
+//            }
+        cell.myTemp.text = "not"
+        return cell
+        //}
+        //}
+    }
+    
+}
 
