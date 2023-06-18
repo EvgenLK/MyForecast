@@ -7,12 +7,16 @@
 
 import Foundation
 import UIKit
-class CurentWeather: UIView {
-    
+
+
+class CurentWeather: UIView, UICollectionViewDelegate{
+
+    var delegateTap: ButtonDelegate?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(setupBackGround)
-        addSubview(myTextFieldTemperature)
+        addSubview(myTextFieldCity)
         addSubview(myTextFieldDaysForeCast)
         addSubview(myButtonTemperature)
         addSubview(myCurrentTemp)
@@ -21,18 +25,16 @@ class CurentWeather: UIView {
         addSubview(myCurrentDate)
         addSubview(collectionView)
         setupСonstraints()
-        
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(CustomCell.self, forCellWithReuseIdentifier: "cell")
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 
-    
-    
     private let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -44,7 +46,6 @@ class CurentWeather: UIView {
         return cv
     }()
     
-    
     private let setupBackGround: UIImageView = {
         let setupBackGround = UIImageView()
         setupBackGround.image = UIImage(named: "GoodDay")
@@ -52,8 +53,6 @@ class CurentWeather: UIView {
         setupBackGround.frame = UIScreen.main.bounds
         return setupBackGround
     }()
-    
-
     
     private let myButtonTemperature: UIButton = {
         var myButtonTemperature = UIButton()
@@ -63,10 +62,15 @@ class CurentWeather: UIView {
         myButtonTemperature.setTitleColor(.systemBlue, for: .highlighted)
         myButtonTemperature.setTitle("searh_button".localized, for: .highlighted)
         myButtonTemperature.layer.borderWidth = 0.5
-//        myButtonTemperature.addTarget(CurentWeather.self, action: #selector(requestForecastWeather), for: .touchUpInside)
+        myButtonTemperature.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         myButtonTemperature.translatesAutoresizingMaskIntoConstraints = false
         return myButtonTemperature
     }()
+    
+    @objc func buttonPressed() {
+        guard let textcity = myTextFieldCity.text , let textday = myTextFieldDaysForeCast.text else { return }
+        delegateTap?.didPressButton(city: textcity, day: textday)
+    }
     
     private let myCurrentDate: UILabel = {
         let myCurrentDate = UILabel()
@@ -126,7 +130,7 @@ class CurentWeather: UIView {
         return myTextFieldDaysForeCast
     }()
     
-    private let myTextFieldTemperature: UITextField = {
+    private let myTextFieldCity: UITextField = {
         let myTextFieldTemperature = UITextField()
         myTextFieldTemperature.backgroundColor = .white
         myTextFieldTemperature.placeholder = "placeholder_in_view".localized
@@ -141,10 +145,10 @@ class CurentWeather: UIView {
     
     func setupСonstraints() {
         NSLayoutConstraint.activate([
-            myTextFieldTemperature.topAnchor.constraint(equalTo: topAnchor, constant: 90),
-            myTextFieldTemperature.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            myTextFieldTemperature.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -170),
-            myTextFieldTemperature.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -750),
+            myTextFieldCity.topAnchor.constraint(equalTo: topAnchor, constant: 90),
+            myTextFieldCity.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            myTextFieldCity.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -170),
+            myTextFieldCity.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -750),
         ])
         
         NSLayoutConstraint.activate([
@@ -197,29 +201,4 @@ class CurentWeather: UIView {
     }
 }
 
-extension CurentWeather: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-    
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width/3, height: collectionView.frame.height/2)
-    }
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //        return dataForecastWeather.count != 0 ? dataForecastWeather.count: 1
-        return 3
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
-//            let weather = dataForecastWeather[indexPath.row]
-//            if dataForecastWeather.count != 0{
-//                cell.configure(with: weather )
-//            } else {
-//                cell.myTemp.text = "forecast_collectionview".localized
-//            }
-        cell.myTemp.text = "hello"
-        return cell
-        //}
-        //}
-    }
-    
-}
+

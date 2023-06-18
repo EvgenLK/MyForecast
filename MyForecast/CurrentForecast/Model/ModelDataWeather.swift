@@ -13,14 +13,14 @@ struct ModelDataWeather {
     let temperature_2m: Double
     let windspeed_10m: Double
     let precipitation: Double
-    let imageIcon: UIImage?
+    let imageIcon: String
     
     init?(dictionary: [String: AnyObject]) {
         guard let time = dictionary["time"] as? String,
               let temperature_2m = dictionary["temperature_2m"] as? Double,
               let windspeed_10m = dictionary["windspeed_10m"] as? Double,
               let precipitation = dictionary["precipitation"] as? Double,
-              let imageIcon = dictionary["imageIcon"] as? UIImage
+              let imageIcon = dictionary["imageIcon"] as? String
         else { return nil }
         
         self.time = time

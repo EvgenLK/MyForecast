@@ -12,7 +12,7 @@ class NetworkService {
     
     private init() {}
     
-    public func getDataWeather(url: URL, completion: @escaping(Any) -> ()) {
+    public func getData(url: URL, completion: @escaping(Any) -> ()) {
         let session = URLSession.shared
         session.dataTask(with: url) { data, response, error in
             guard let data = data else { return }
@@ -25,6 +25,6 @@ class NetworkService {
             } catch {
                 print(error.localizedDescription)
             }
-        }
+        }.resume()
     }
 }
