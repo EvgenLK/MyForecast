@@ -11,12 +11,11 @@ class LanLonCityNetworkService {
     private init() {}
     
     static func getLanLon(city: String, day: String, completion: @escaping(GetLanLon) ->()) {
-        guard let url = URL(string: "https://geocoding-api.open-meteo.com/v1/search?name=\(city)&count=\(day)&language=\("language".localized)&format=json")  else { return }
+        guard let url = URL(string: "https://geocoding-api.open-meteo.com/v1/search?name=\(city)&count=1&language=en&format=json")  else { return }
         
         NetworkService.shared.getData(url: url) { json in
             do {
                 let response = try GetLanLon(json: json)
-                print(json)
                 completion(response)
             } catch {
                 print(error.localizedDescription)

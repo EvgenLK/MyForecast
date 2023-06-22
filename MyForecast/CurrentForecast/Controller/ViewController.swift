@@ -13,7 +13,7 @@ class ViewController: UIViewController, ButtonDelegate {
 
     let customViewCurent = CurentWeather()
     var weather = [ModelDataWeather]()
-    var lanlon = [ModelLanLon]()
+    var lanlon = [City]()
     var cityUtf8: String = ""
 
     override func loadView() {
@@ -31,6 +31,7 @@ class ViewController: UIViewController, ButtonDelegate {
         
         LanLonCityNetworkService.getLanLon(city: cityUtf8, day: day) { response in
             self.lanlon = response.lanlon
+            print(self.lanlon)
         }
     }
 
