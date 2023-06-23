@@ -1,3 +1,4 @@
+
 //
 //  ModelDataWeather.swift
 //  MyForecast
@@ -36,17 +37,17 @@ struct ModelDataWeather {
 
 
 //func modelDatFormat(StringDate: String) -> String {
-//    
+//
 //    let dateString = StringDate + ":00Z"
 //    let dateFormatter = ISO8601DateFormatter()
 //    let date = dateFormatter.date(from: dateString)
-//    
-//    
+//
+//
 //    let dateFormatterTime = ISO8601DateFormatter()
 //    dateFormatterTime.formatOptions = .withFullTime
 //    var strTime = dateFormatterTime.string(from: date!)
 //    strTime.removeLast(4)
-//    
+//
 //    let dateFormatterDate = ISO8601DateFormatter()
 //    dateFormatterDate.formatOptions = .withFullDate
 //    let strDate = dateFormatterDate.string(from: date!)
@@ -55,9 +56,9 @@ struct ModelDataWeather {
 //}
 //
 //func modelimageIcon(precipitation: Int, elem: Int) -> String {
-//    
+//
 //    var iconImage = ""
-//    
+//
 //    switch elem {
 //    case 0,1,2,3,4,5,20,21,22,23,24:
 //        if precipitation == 0 {

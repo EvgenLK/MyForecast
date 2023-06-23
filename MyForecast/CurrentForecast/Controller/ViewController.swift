@@ -13,8 +13,9 @@ class ViewController: UIViewController, ButtonDelegate {
 
     let customViewCurent = CurentWeather()
     var weather = [ModelDataWeather]()
-    var lanlon = [City]()
+    var lanlon = [WeatherCity]()
     var cityUtf8: String = ""
+    var weatherData =  [WeatherData]()
 
     override func loadView() {
         view = customViewCurent
@@ -31,63 +32,16 @@ class ViewController: UIViewController, ButtonDelegate {
         
         LanLonCityNetworkService.getLanLon(city: cityUtf8, day: day) { response in
             self.lanlon = response.lanlon
-            print(self.lanlon)
         }
+        sleep(3)
+        print(self.lanlon)
+        WeatherNetworkService.getLanLon(latitude: lanlon[0].latitude, longitude: lanlon[0].longitude, days: day ){ response in
+            self.weatherData = response.weatherData
+        }
+        
     }
-
-
     
-    //
-    //    @objc func requestForecastWeather() {
-    //        myTextFieldTemperature.resignFirstResponder()
-    //        myTFDaysForeC.resignFirstResponder()
-    //
-    //
-    //                let urlCityString = "https://geocoding-api.open-meteo.com/v1/search?name=\(cityUtf8)&count=1&language=\("language".localized)&format=json"
-    //
-    //
-    //            guard let urlcity = URL(string: urlCityString) else { return }
-    //            let requestCity = URLRequest(url: urlcity)
-    //
-    //            let taskCity = URLSession.shared.dataTask(with: requestCity) { data, response, error in
-    //                if let data, let city = try? JSONDecoder().decode(WeaterCity.self, from: data) {
-    //                    self.arrayCityForecast.removeAll()
-    //
-    //                    DispatchQueue.main.async {
-    //                        guard let dataArray = city.results else { return }
-    //                        for elem in dataArray {
-    //                            guard let lat = elem.latitude else {return}
-    //                            guard let lon = elem.longitude else {return}
-    //                            self.arrayCityForecast.append(String(format:"%.02f", lat))
-    //                            self.arrayCityForecast.append(String(format:"%.02f", lon))
-    //                            self.updateTupleAsync()
-    //                        }
-    //                    }
-    //
-    //                } else {
-    //                    print("Fail")
-    //                }
-    //            }
-    //            taskCity.resume()
-    //
-    //            var boolCity = false
-    //
-    //            while !boolCity {
-    //                var deadline = 3
-    //                sleep(1)
-    //                if !self.arrayCityForecast.isEmpty {
-    //                    boolCity = true
-    //                }else if deadline == 0 {
-    //                    deadline -= 1
-    //                    print("the end")
-    //                    return
-    //                }
-    //            }
-    //
-    //            if boolCity == true {
-    //
-    //                let forecastDaysWeather: String = myTFDaysForeC.text!.isEmpty ? "1" : String(myTFDaysForeC.text!)
-    //                let urlString = "https://api.open-meteo.com/v1/gfs?latitude=\(self.arrayCityForecast[0])&longitude=\(self.arrayCityForecast[1])&hourly=temperature_2m,precipitation,windspeed_10m&windspeed_unit=ms&forecast_days=\(forecastDaysWeather)&timezone=auto"
+// "https://api.open-meteo.com/v1/gfs?latitude=\(self.arrayCityForecast[0])&longitude=\(self.arrayCityForecast[1])&hourly=temperature_2m,precipitation,windspeed_10m&windspeed_unit=ms&forecast_days=\(forecastDaysWeather)&timezone=auto"
     //
     //                guard let url = URL(string: urlString) else { return }
     //                let request = URLRequest(url: url)
@@ -176,7 +130,7 @@ extension CurentWeather: UICollectionViewDelegateFlowLayout, UICollectionViewDat
         return CGSize(width: collectionView.frame.width/3, height: collectionView.frame.height/2)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //        return dataForecastWeather.count != 0 ? dataForecastWeather.count: 1
+//        return weatherData.isEmpty ? weatherData.count: 1
         return 3
     }
     

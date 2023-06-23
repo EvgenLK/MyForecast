@@ -5,7 +5,7 @@
 
 import Foundation
 
-struct City {
+struct WeatherCity {
     let admin1: String
     let admin1_id: Int
     let admin2: String
@@ -16,15 +16,14 @@ struct City {
     let elevation: Int
     let feature_code: String
     let id: Int
-    let latitude: String
-    let longitude: String
+    let latitude: Double
+    let longitude: Double
     let name: String
     let population: Int
     let timezone: String
 }
 
 struct RootObject {
-    let generationtime_ms: String
-    let results: [City]
+    let results: [WeatherCity]
 }
 

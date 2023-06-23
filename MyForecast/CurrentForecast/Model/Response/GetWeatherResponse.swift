@@ -8,19 +8,14 @@
 import Foundation
 
 struct GetWeatherResponse {
-    typealias JSON = [[String: AnyObject]]
-    let weather: [ModelDataWeather]
+    let weatherData: [WeatherData]
     
     init(json: Any) throws {
-        guard let array = json as? JSON else { throw NetworkError.failInternetError }
+        guard let array = json as? [String: Any] else { throw NetworkError.failInternetError }
+        let weatherGetData = [WeatherData]()
         
-        var weathers = [ModelDataWeather]()
         
-        for dictionary in array {
-            guard let weather = ModelDataWeather(dictionary: dictionary) else { continue }
-            weathers.append(weather)
-        }
         
-        self.weather = weathers
+        self.weatherData = weatherGetData
     }
 }
