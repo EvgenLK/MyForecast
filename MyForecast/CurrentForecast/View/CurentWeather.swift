@@ -12,6 +12,8 @@ import UIKit
 class CurentWeather: UIView, UICollectionViewDelegate{
 
     var delegateTap: ButtonDelegate?
+    weak var delegateWeather: CurentWeatherDelegate?
+    var updatedWeatherHourly = [Hourly]()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,14 +30,19 @@ class CurentWeather: UIView, UICollectionViewDelegate{
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(CustomCell.self, forCellWithReuseIdentifier: "cell")
+
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func updateUI() {
+        
+        delegateWeather?.didUpdateWeatherHourly(weatherDataHourly: self.updatedWeatherHourly)
+    }
 
-    private let collectionView: UICollectionView = {
+     let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.translatesAutoresizingMaskIntoConstraints = false

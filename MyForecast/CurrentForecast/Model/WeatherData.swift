@@ -7,19 +7,26 @@ import Foundation
 
 
 // MARK: - Hourly
+struct Hourly: Codable {
+    let time: [String]
+    let temperature2M, precipitation, windspeed10M: [Double]
 
-    struct Hourly {
-        let time: [String]
-        let temperature2M: [Double]
-        let precipitation: [Double]
-        let windspeed10M: [Double]
-
+    enum CodingKeys: String, CodingKey {
+        case time
+        case temperature2M = "temperature_2m"
+        case precipitation
+        case windspeed10M = "windspeed_10m"
     }
+}
 
 // MARK: - HourlyUnits
+struct HourlyUnits: Codable {
+    let time, temperature2M, precipitation, windspeed10M: String
 
-    struct HourlyUnits {
-        let time, temperature2M, precipitation, windspeed10M: String
-
+    enum CodingKeys: String, CodingKey {
+        case time
+        case temperature2M = "temperature_2m"
+        case precipitation
+        case windspeed10M = "windspeed_10m"
     }
-
+}

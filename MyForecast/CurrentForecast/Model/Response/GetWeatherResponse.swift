@@ -15,6 +15,10 @@ struct GetWeatherResponse {
         guard let array = json as? [String: Any] else { throw NetworkError.failInternetError }
         var weatherGetUnit = [HourlyUnits]()
         var weatherGetHourly = [Hourly]()
+        var precipitation = [Double]()
+        var temperatupe = [Double]()
+        var windSpeed = [Double]()
+        var time = [String]()
         
         if let hourleUnits = array["hourly_units"] as? [[String: Any]] {
             for arrayElem in hourleUnits {
@@ -29,40 +33,22 @@ struct GetWeatherResponse {
                                       precipitation: precipitationMM,
                                       windspeed10M: windspeed_10ms)
                 weatherGetUnit.append(res)
-                print(res)
             }
         }
-        
         if let hourle = array["hourly"] as? [String: Any] {
-            var precipitation = [Double]()
-            var temperatupe = [Double]()
-            var windSpeed = [Double]()
-            var time = [String]()
             
             if let precipitationArray = hourle["precipitation"] as? [Double] {
-                for value in precipitationArray {
-                    precipitation.append(value)
-                }
+                precipitation = precipitationArray
             }
-            
-            if let temperatureArray = hourle["temperature_2m"] as? [Double] {
-                for value in temperatureArray {
-                    temperatupe.append(value)
-                }
-            }
-            
-            if let windspeedArray = hourle["windspeed_10m"] as? [Double] {
-                for value in windspeedArray {
-                    windSpeed.append(value)
-                }
-            }
-            
             if let timeArray = hourle["time"] as? [String] {
-                for value in timeArray {
-                    time.append(value)
-                }
+                time = timeArray
             }
-            
+            if let temperatureArray = hourle["temperature_2m"] as? [Double] {
+                temperatupe = temperatureArray
+            }
+            if let windspeedArray = hourle["windspeed_10m"] as? [Double] {
+                windSpeed = windspeedArray
+            }
             let res = Hourly(time: time,
                              temperature2M: temperatupe,
                              precipitation: precipitation,
