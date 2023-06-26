@@ -9,7 +9,7 @@ import Foundation
 // MARK: - Hourly
 struct Hourly: Codable {
     let time: [String]
-    let temperature2M, precipitation, windspeed10M: [Double]
+    let temperature2M, precipitation, windspeed10M: [String]
 
     enum CodingKeys: String, CodingKey {
         case time

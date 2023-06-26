@@ -81,9 +81,28 @@ class CustomCell: UICollectionViewCell {
     }
     
     func configure(with weather: Hourly) {
-        myHour.text = "111111111"
-        myTemp.text = "222222222"
-        myRain.text = "333333333"
-        myWindSpeed.text = "44444444"
+        var timeString = ""
+        for i in 0..<weather.time.count {
+            timeString += "\(weather.time[i])\n"
+        }
+        myHour.text = timeString
+        
+        var tempString = ""
+        for i in 0..<weather.temperature2M.count {
+            tempString += "\(weather.temperature2M[i])\n"
+        }
+        myTemp.text = tempString
+        
+        var rainString = ""
+        for i in 0..<weather.precipitation.count {
+            rainString += "\(weather.precipitation[i])\n"
+        }
+        myRain.text = rainString
+        
+        var windspeedString = ""
+        for i in 0..<weather.windspeed10M.count {
+            windspeedString += "\(weather.windspeed10M[i])\n"
+        }
+        myWindSpeed.text = windspeedString
     }
 }
