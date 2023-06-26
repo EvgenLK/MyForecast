@@ -15,9 +15,9 @@ struct GetWeatherResponse {
         guard let array = json as? [String: Any] else { throw NetworkError.failInternetError }
         var weatherGetUnit = [HourlyUnits]()
         var weatherGetHourly = [Hourly]()
-        var precipitation = [Double]()
-        var temperatupe = [Double]()
-        var windSpeed = [Double]()
+        var precipitation = [String]()
+        var temperatupe = [String]()
+        var windSpeed = [String]()
         var time = [String]()
         
         if let hourleUnits = array["hourly_units"] as? [[String: Any]] {
@@ -38,17 +38,24 @@ struct GetWeatherResponse {
         if let hourle = array["hourly"] as? [String: Any] {
             
             if let precipitationArray = hourle["precipitation"] as? [Double] {
-                precipitation = precipitationArray
+                for i in precipitationArray {
+                    precipitation.append(String(i))
+                }
             }
             if let timeArray = hourle["time"] as? [String] {
-                time = timeArray
+                for i in timeArray {
+                    time.append(String(i))
+                }
             }
             if let temperatureArray = hourle["temperature_2m"] as? [Double] {
-                temperatupe = temperatureArray
+                for i in temperatureArray {
+                    temperatupe.append(String(i))
+                }
             }
             if let windspeedArray = hourle["windspeed_10m"] as? [Double] {
-                windSpeed = windspeedArray
-            }
+                for i in windspeedArray {
+                    windSpeed.append(String(i))
+                }            }
             let res = Hourly(time: time,
                              temperature2M: temperatupe,
                              precipitation: precipitation,

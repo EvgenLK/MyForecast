@@ -13,7 +13,7 @@ class CurentWeather: UIView, UICollectionViewDelegate{
 
     var delegateTap: ButtonDelegate?
     weak var delegateWeather: CurentWeatherDelegate?
-    var updatedWeatherHourly = [Hourly]()
+    var updatedWeatherHourly: [Hourly] = []
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -40,6 +40,7 @@ class CurentWeather: UIView, UICollectionViewDelegate{
     func updateUI() {
         
         delegateWeather?.didUpdateWeatherHourly(weatherDataHourly: self.updatedWeatherHourly)
+        
     }
 
      let collectionView: UICollectionView = {
@@ -49,7 +50,7 @@ class CurentWeather: UIView, UICollectionViewDelegate{
         layout.scrollDirection = .horizontal
         cv.layer.opacity = 0.6
         cv.layer.cornerRadius = 20
-        cv.showsHorizontalScrollIndicator = false
+//        cv.showsHorizontalScrollIndicator = false
         return cv
     }()
     
