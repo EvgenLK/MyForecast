@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9B3AE8EC2A487EE20099CC1D /* CurentWeatherDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3AE8EB2A487EE20099CC1D /* CurentWeatherDelegate.swift */; };
 		9B3DB5042A3EADF600DF962B /* ButtonAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3DB5032A3EADF600DF962B /* ButtonAction.swift */; };
 		9B3DB5072A3EDE0D00DF962B /* WeatherNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3DB5062A3EDE0D00DF962B /* WeatherNetworkService.swift */; };
 		9B3DB50B2A3EF16000DF962B /* LanLonCityNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B3DB50A2A3EF16000DF962B /* LanLonCityNetworkService.swift */; };
@@ -34,7 +33,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9B3AE8EB2A487EE20099CC1D /* CurentWeatherDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurentWeatherDelegate.swift; sourceTree = "<group>"; };
 		9B3DB5032A3EADF600DF962B /* ButtonAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonAction.swift; sourceTree = "<group>"; };
 		9B3DB5062A3EDE0D00DF962B /* WeatherNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherNetworkService.swift; sourceTree = "<group>"; };
 		9B3DB50A2A3EF16000DF962B /* LanLonCityNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanLonCityNetworkService.swift; sourceTree = "<group>"; };
@@ -79,7 +77,6 @@
 			isa = PBXGroup;
 			children = (
 				9B3DB5032A3EADF600DF962B /* ButtonAction.swift */,
-				9B3AE8EB2A487EE20099CC1D /* CurentWeatherDelegate.swift */,
 			);
 			path = Proto;
 			sourceTree = "<group>";
@@ -327,7 +324,6 @@
 				9B842A572A0741FE00A6B1C8 /* WeatherCity.swift in Sources */,
 				9BCD4CE92A45D28A00A90E39 /* ModelDataWeather.swift in Sources */,
 				9B43B2342A36F8FB005E85DD /* CurentWeather.swift in Sources */,
-				9B3AE8EC2A487EE20099CC1D /* CurentWeatherDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -14,16 +14,24 @@ extension CurentWeather: UICollectionViewDelegateFlowLayout, UICollectionViewDat
         return CGSize(width: collectionView.frame.width/3, height: collectionView.frame.height/2)
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        return updatedWeatherHourly.count
-        
+        let times = updatedWeatherHourly.first?.time
+        if let count = times?.count {
+            return count
+        } else {
+            return 1
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
-            let weather = updatedWeatherHourly[indexPath.row]
+        
+        let weather = updatedWeatherHourly.first
+        cell.myHour.text = weather?.time[indexPath.row]
+        cell.myRain.text = weather?.precipitation[indexPath.row]
+        cell.myTemp.text = weather?.temperature2M[indexPath.row]
+        cell.myWindSpeed.text = weather?.windspeed10M[indexPath.row]
 
-        cell.configure(with: weather)
+//        cell.configure(with: weather)
         return cell
     }
 }

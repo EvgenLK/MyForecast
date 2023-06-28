@@ -37,7 +37,7 @@ class CustomCell: UICollectionViewCell {
         ])
         
         NSLayoutConstraint.activate([
-            myWindSpeed.topAnchor.constraint(equalTo: topAnchor, constant: 60),
+            myWindSpeed.topAnchor.constraint(equalTo: topAnchor, constant: 65),
             myWindSpeed.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             myWindSpeed.trailingAnchor.constraint(equalTo: trailingAnchor),
             myWindSpeed.bottomAnchor.constraint(equalTo: bottomAnchor)
@@ -80,29 +80,4 @@ class CustomCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with weather: Hourly) {
-        var timeString = ""
-        for i in 0..<weather.time.count {
-            timeString += "\(weather.time[i])\n"
-        }
-        myHour.text = timeString
-        
-        var tempString = ""
-        for i in 0..<weather.temperature2M.count {
-            tempString += "\(weather.temperature2M[i])\n"
-        }
-        myTemp.text = tempString
-        
-        var rainString = ""
-        for i in 0..<weather.precipitation.count {
-            rainString += "\(weather.precipitation[i])\n"
-        }
-        myRain.text = rainString
-        
-        var windspeedString = ""
-        for i in 0..<weather.windspeed10M.count {
-            windspeedString += "\(weather.windspeed10M[i])\n"
-        }
-        myWindSpeed.text = windspeedString
-    }
 }
