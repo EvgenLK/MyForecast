@@ -12,9 +12,8 @@ import UIKit
 class CurentWeather: UIView, UICollectionViewDelegate{
 
     var delegateTap: ButtonDelegate?
-    weak var delegateWeather: CurentWeatherDelegate?
+//    weak var delegateWeather: CurentWeatherDelegate?
     var updatedWeatherHourly: [Hourly] = []
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(setupBackGround)
@@ -30,19 +29,40 @@ class CurentWeather: UIView, UICollectionViewDelegate{
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(CustomCell.self, forCellWithReuseIdentifier: "cell")
-
     }
+    
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func updateUI() {
-        
-        delegateWeather?.didUpdateWeatherHourly(weatherDataHourly: self.updatedWeatherHourly)
+    var currentTemperature: String = ""
+    var currentWindSpeed: String = ""
+    var currentPrecip: String = ""
+    var currentTime: String = ""
+    
+    var currentHour: Int = {
+        let date = Date()
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+        return hour
+    }()
+    
+    func updateUICurent() {
+            
+            guard let currentHourlyData = self.updatedWeatherHourly.first else { return }
+            
+            self.currentTemperature = currentHourlyData.temperature2M[self.currentHour]
+            self.currentWindSpeed = currentHourlyData.windspeed10M[self.currentHour]
+            self.currentPrecip = currentHourlyData.precipitation[self.currentHour]
+            self.currentTime = currentHourlyData.time[self.currentHour]
+            
+            self.myCurrentTemp.text = "\(self.currentTemperature)°C"
+            self.myCurrentWind.text = "\(self.currentWindSpeed)m/s"
+            self.myCurrentDate.text = "\(self.currentTime)"
+            self.myCurrentPrecipitation.text = "\(self.currentPrecip)"
         
     }
-
      let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -50,7 +70,7 @@ class CurentWeather: UIView, UICollectionViewDelegate{
         layout.scrollDirection = .horizontal
         cv.layer.opacity = 0.6
         cv.layer.cornerRadius = 20
-//        cv.showsHorizontalScrollIndicator = false
+        cv.showsHorizontalScrollIndicator = false
         return cv
     }()
     
@@ -78,8 +98,9 @@ class CurentWeather: UIView, UICollectionViewDelegate{
     @objc func buttonPressed() {
         guard let textcity = myTextFieldCity.text , let textday = myTextFieldDaysForeCast.text else { return }
         delegateTap?.didPressButton(city: textcity, day: textday)
+        myCurrentDate.text = "Загрузка..."
     }
-    
+
     private let myCurrentDate: UILabel = {
         let myCurrentDate = UILabel()
         myCurrentDate.font = UIFont(name: "ArialMT", size: 40)
@@ -87,7 +108,7 @@ class CurentWeather: UIView, UICollectionViewDelegate{
         myCurrentDate.numberOfLines = 0
         myCurrentDate.textAlignment = .center
         myCurrentDate.translatesAutoresizingMaskIntoConstraints = false
-        myCurrentDate.text = "21.07.2023"
+        myCurrentDate.text = "Введите город."
         return myCurrentDate
     }()
     
@@ -99,7 +120,7 @@ class CurentWeather: UIView, UICollectionViewDelegate{
         myCurrentTemp.numberOfLines = 0
         myCurrentTemp.textAlignment = .center
         myCurrentTemp.translatesAutoresizingMaskIntoConstraints = false
-        myCurrentTemp.text = "20 Celsios"
+        myCurrentTemp.text = ""
         return myCurrentTemp
     }()
     
@@ -110,7 +131,7 @@ class CurentWeather: UIView, UICollectionViewDelegate{
         myCurrentPrecipitation.numberOfLines = 0
         myCurrentPrecipitation.textAlignment = .center
         myCurrentPrecipitation.translatesAutoresizingMaskIntoConstraints = false
-        myCurrentPrecipitation.text = "0.3 mm"
+        myCurrentPrecipitation.text = ""
         return myCurrentPrecipitation
     }()
     
@@ -121,7 +142,7 @@ class CurentWeather: UIView, UICollectionViewDelegate{
         myCurrentWind.numberOfLines = 0
         myCurrentWind.textAlignment = .center
         myCurrentWind.translatesAutoresizingMaskIntoConstraints = false
-        myCurrentWind.text = "0.5 m/s"
+        myCurrentWind.text = ""
         return myCurrentWind
     }()
     
@@ -201,7 +222,7 @@ class CurentWeather: UIView, UICollectionViewDelegate{
         ])
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: topAnchor, constant: 750),
+            collectionView.topAnchor.constraint(equalTo: topAnchor, constant: 730),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
