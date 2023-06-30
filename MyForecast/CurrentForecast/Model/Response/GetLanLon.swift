@@ -20,8 +20,6 @@ struct GetLanLon {
             for result in results {
                 guard let admin1 = result["admin1"] as? String else { continue }
                 guard let admin1_id = result["admin1_id"] as? Int else { continue }
-                guard let admin2 = result["admin2"] as? String else { continue }
-                guard let admin2_id = result["admin2_id"] as? Int else { continue }
                 guard let country = result["country"] as? String else { continue }
                 guard let country_code = result["country_code"] as? String else { continue }
                 guard let country_id = result["country_id"] as? Int else { continue }
@@ -34,21 +32,19 @@ struct GetLanLon {
                 guard let population = result["population"] as? Int else { continue }
                 guard let timezone = result["timezone"] as? String else { continue }
                 
-                let res = WeatherCity(admin1: admin1,
-                               admin1_id: admin1_id,
-                               admin2: admin2,
-                               admin2_id: admin2_id,
-                               country: country,
-                               country_code: country_code,
-                               country_id: country_id,
-                               elevation: elevation,
-                               feature_code: feature_code,
-                               id: id,
-                               latitude: latitude,
-                               longitude: longitude,
-                               name: name,
-                               population: population,
-                               timezone: timezone)
+                let res = WeatherCity(id: id,
+                                      name: name,
+                                      latitude: latitude,
+                                      longitude: longitude,
+                                      elevation: elevation,
+                                      featureCode: feature_code,
+                                      countryCode: country_code,
+                                      admin1ID: admin1_id,
+                                      timezone: timezone,
+                                      population: population,
+                                      countryID: country_id,
+                                      country: country,
+                                      admin1: admin1)
                 lanlons.append(res)
             }
         }

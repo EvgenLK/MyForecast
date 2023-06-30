@@ -12,7 +12,6 @@ import UIKit
 class CurentWeather: UIView, UICollectionViewDelegate{
 
     var delegateTap: ButtonDelegate?
-//    weak var delegateWeather: CurentWeatherDelegate?
     var updatedWeatherHourly: [Hourly] = []
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,7 +30,6 @@ class CurentWeather: UIView, UICollectionViewDelegate{
         collectionView.register(CustomCell.self, forCellWithReuseIdentifier: "cell")
     }
     
-
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -51,14 +49,13 @@ class CurentWeather: UIView, UICollectionViewDelegate{
     func updateUICurent() {
             
             guard let currentHourlyData = self.updatedWeatherHourly.first else { return }
-            
             self.currentTemperature = currentHourlyData.temperature2M[self.currentHour]
             self.currentWindSpeed = currentHourlyData.windspeed10M[self.currentHour]
             self.currentPrecip = currentHourlyData.precipitation[self.currentHour]
             self.currentTime = currentHourlyData.time[self.currentHour]
             
             self.myCurrentTemp.text = "\(self.currentTemperature)°C"
-            self.myCurrentWind.text = "\(self.currentWindSpeed)m/s"
+            self.myCurrentWind.text = "\(self.currentWindSpeed) m/s"
             self.myCurrentDate.text = "\(self.currentTime)"
             self.myCurrentPrecipitation.text = "\(self.currentPrecip)"
         
@@ -97,7 +94,7 @@ class CurentWeather: UIView, UICollectionViewDelegate{
     
     @objc func buttonPressed() {
         guard let textcity = myTextFieldCity.text , let textday = myTextFieldDaysForeCast.text else { return }
-        delegateTap?.didPressButton(city: textcity, day: textday)
+        delegateTap?.didPressButton(city: textcity, day: Int(textday) ?? 0)
         myCurrentDate.text = "Загрузка..."
     }
 

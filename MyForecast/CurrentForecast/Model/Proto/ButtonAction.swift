@@ -9,5 +9,5 @@ import Foundation
 import UIKit
 
 protocol ButtonDelegate {
-    func didPressButton(city: String, day: String)
+    func didPressButton(city: String, day: Int)
 }
