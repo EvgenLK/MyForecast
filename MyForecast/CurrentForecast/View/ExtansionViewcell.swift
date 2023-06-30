@@ -30,8 +30,8 @@ extension CurentWeather: UICollectionViewDelegateFlowLayout, UICollectionViewDat
         cell.myRain.text = weather?.precipitation[indexPath.row]
         cell.myTemp.text = weather?.temperature2M[indexPath.row]
         cell.myWindSpeed.text = weather?.windspeed10M[indexPath.row]
+        cell.myImage.image = UIImage(named: weather?.iconImage[indexPath.row] ?? "")
 
-//        cell.configure(with: weather)
         return cell
     }
 }
