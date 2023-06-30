@@ -96,6 +96,9 @@ class CurentWeather: UIView, UICollectionViewDelegate{
         guard let textcity = myTextFieldCity.text , let textday = myTextFieldDaysForeCast.text else { return }
         delegateTap?.didPressButton(city: textcity, day: Int(textday) ?? 0)
         myCurrentDate.text = "Загрузка..."
+        if myTextFieldDaysForeCast.isFirstResponder {
+            self.endEditing(true)
+        }
     }
 
     private let myCurrentDate: UILabel = {
