@@ -9,6 +9,8 @@
 
 //alert
 "alert_message_empty_city" = "The city field cannot be empty";
+"alert_message_empty_day" = "Number of days available from 1 to 7 days";
+"alert_not_textField_Search" = "Fill all in the input fields for the search";
 "alert_not_city_request" = "The server did not respond, please try again.";
 
 //language
