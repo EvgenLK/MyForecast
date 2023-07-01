@@ -7,12 +7,35 @@
 
 import UIKit
 
-class CustomCell: UICollectionViewCell {
+final class CustomCell: UICollectionViewCell {
     
     let myTemp: UILabel = {
         let myTemp = UILabel()
         myTemp.translatesAutoresizingMaskIntoConstraints = false
         return myTemp
+    }()
+    
+    let myHour: UILabel = {
+        let myHour = UILabel()
+        myHour.translatesAutoresizingMaskIntoConstraints = false
+        return myHour
+    }()
+    
+    let myRain: UILabel = {
+        let myRain = UILabel()
+        myRain.translatesAutoresizingMaskIntoConstraints = false
+        return myRain
+    }()
+    
+    let myWindSpeed: UILabel = {
+        let myWindSpeed = UILabel()
+        myWindSpeed.translatesAutoresizingMaskIntoConstraints = false
+        return myWindSpeed
+    }()
+    let myImage: UIImageView = {
+        let myImage = UIImageView()
+        myImage.translatesAutoresizingMaskIntoConstraints = false
+        return myImage
     }()
     func setupConstraints() {
         NSLayoutConstraint.activate([
@@ -51,36 +74,13 @@ class CustomCell: UICollectionViewCell {
         ])
     }
     
-    let myHour: UILabel = {
-        let myHour = UILabel()
-        myHour.translatesAutoresizingMaskIntoConstraints = false
-        return myHour
-    }()
-    
-    let myRain: UILabel = {
-        let myRain = UILabel()
-        myRain.translatesAutoresizingMaskIntoConstraints = false
-        return myRain
-    }()
-    
-    let myWindSpeed: UILabel = {
-        let myWindSpeed = UILabel()
-        myWindSpeed.translatesAutoresizingMaskIntoConstraints = false
-        return myWindSpeed
-    }()
-    let myImage: UIImageView = {
-        let myImage = UIImageView()
-        myImage.translatesAutoresizingMaskIntoConstraints = false
-        return myImage
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubview(myImage)
-        addSubview(myTemp)
-        addSubview(myHour)
-        addSubview(myRain)
-        addSubview(myWindSpeed)
+        contentView.addSubview(myImage)
+        contentView.addSubview(myTemp)
+        contentView.addSubview(myHour)
+        contentView.addSubview(myRain)
+        contentView.addSubview(myWindSpeed)
         setupConstraints()
 
         

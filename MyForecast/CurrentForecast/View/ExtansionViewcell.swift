@@ -24,7 +24,6 @@ extension CurentWeather: UICollectionViewDelegateFlowLayout, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
-        
         let weather = updatedWeatherHourly.first
         cell.myHour.text = weather?.time[indexPath.row]
         cell.myRain.text = weather?.precipitation[indexPath.row]

@@ -11,7 +11,7 @@ import UIKit
 
 class CurentWeather: UIView, UICollectionViewDelegate{
 
-    var delegateTap: ButtonDelegate?
+    weak var delegateTap: InputActionDelegate?
     var updatedWeatherHourly: [Hourly] = []
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -87,14 +87,14 @@ class CurentWeather: UIView, UICollectionViewDelegate{
         myButtonTemperature.setTitleColor(.systemBlue, for: .highlighted)
         myButtonTemperature.setTitle("searh_button".localized, for: .highlighted)
         myButtonTemperature.layer.borderWidth = 0.5
-        myButtonTemperature.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        myButtonTemperature.addTarget(self, action: #selector(buttonPressedSearch), for: .touchUpInside)
         myButtonTemperature.translatesAutoresizingMaskIntoConstraints = false
         return myButtonTemperature
     }()
     
-    @objc func buttonPressed() {
+    @objc func buttonPressedSearch() {
         guard let textcity = myTextFieldCity.text , let textday = myTextFieldDaysForeCast.text else { return }
-        delegateTap?.didPressButton(city: textcity, day: Int(textday) ?? 0)
+        delegateTap?.didPressSearchButton(city: textcity, day: Int(textday) ?? 0)
         myCurrentDate.text = "Загрузка..."
         if myTextFieldDaysForeCast.isFirstResponder {
             self.endEditing(true)
@@ -174,7 +174,7 @@ class CurentWeather: UIView, UICollectionViewDelegate{
     
     func setupСonstraints() {
         NSLayoutConstraint.activate([
-            myTextFieldCity.topAnchor.constraint(equalTo: topAnchor, constant: 90),
+            myTextFieldCity.topAnchor.constraint(equalTo:  topAnchor, constant: 90),
             myTextFieldCity.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             myTextFieldCity.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -170),
             myTextFieldCity.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -750),

@@ -8,6 +8,6 @@
 import Foundation
 import UIKit
 
-protocol ButtonDelegate {
-    func didPressButton(city: String, day: Int)
+protocol InputActionDelegate: ViewController {
+    func didPressSearchButton(city: String, day: Int)
 }

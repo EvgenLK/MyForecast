@@ -10,8 +10,11 @@
 
 
 //alert
-"alert_message_empty_city" = "Поле ввода не может быть пустым";
+"alert_message_empty_city" = "Поле ввода название города не может быть пустым";
+"alert_message_empty_day" = "Поле ввода количество дней доступно от 1 до 7 дней";
 "alert_not_city_request" = "Сервер не ответил, повторите попытку";
+"alert_not_textField_Search" = "Заполните все поля ввода для поиска";
+
 
 //language
 

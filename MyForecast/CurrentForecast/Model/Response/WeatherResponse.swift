@@ -8,50 +8,45 @@
 import Foundation
 import UIKit
 
-struct GetWeatherResponse {
-    let weatherUnits: [HourlyUnits]
+struct WeatherResponse {
+    let weatherUnits: [HourlyUnit]
     let weatherHourly: [Hourly]
 
     init(json: Any) throws {
         guard let array = json as? [String: Any] else { throw NetworkError.failInternetError }
-        var weatherGetUnit = [HourlyUnits]()
+        var weatherGetUnit = [HourlyUnit]()
         var weatherGetHourly = [Hourly]()
         var precipitation = [String]()
         var temperatupe = [String]()
         var windSpeed = [String]()
         var time = [String]()
         var iconImage = [String]()
-        func modelDatFormat(StringDate: String) -> String {
-            
+        
+        func modelDateFormat(StringDate: String) -> String {
             let dateString = StringDate + ":00Z"
             let dateFormatter = ISO8601DateFormatter()
             let date = dateFormatter.date(from: dateString)
             
-            let dateFormatterTime = ISO8601DateFormatter()
-            dateFormatterTime.formatOptions = .withFullTime
-            var strTime = dateFormatterTime.string(from: date!)
-            strTime.removeLast(4)
+            let dateFormatterResult = DateFormatter()
+            dateFormatterResult.dateFormat = "dd.MM.yy HH:mm"
+            let formattedDate = dateFormatterResult.string(from: date ?? Date())
             
-            let dateFormatterDate = ISO8601DateFormatter()
-            dateFormatterDate.formatOptions = .withFullDate
-            let strDate = dateFormatterDate.string(from: date!)
-            let strMD = String(strDate.dropFirst(5))
-            return "\(strMD) \(strTime)"
+            return formattedDate
         }
         
-        if let hourleUnits = array["hourly_units"] as? [[String: Any]] {
-            for arrayElem in hourleUnits {
+        if let hourleUnit = array["hourly_units"] as? [[String: Any]] {
+            for arrayElem in hourleUnit {
                 
                 guard let timeiso8601 = arrayElem["time"] as? String else { continue }
                 guard let temperature_2m = arrayElem["temperature_2m"] as? String else { continue }
                 guard let precipitationMM = arrayElem["precipitation"] as? String else { continue }
                 guard let windspeed_10ms = arrayElem["windspeed_10m"] as? String else { continue }
                 
-                let res = HourlyUnits(time: timeiso8601,
+                let resultUnit = HourlyUnit(time: timeiso8601,
                                       temperature2M: temperature_2m,
                                       precipitation: precipitationMM,
                                       windspeed10M: windspeed_10ms)
-                weatherGetUnit.append(res)
+                weatherGetUnit.append(resultUnit)
             }
         }
         if let hourle = array["hourly"] as? [String: Any] {
@@ -64,7 +59,7 @@ struct GetWeatherResponse {
             }
             if let timeArray = hourle["time"] as? [String] {
                 for i in timeArray {
-                    time.append(modelDatFormat(StringDate: i))
+                    time.append(modelDateFormat(StringDate: i))
                 }
             }
             if let temperatureArray = hourle["temperature_2m"] as? [Double] {
@@ -77,12 +72,12 @@ struct GetWeatherResponse {
                     windSpeed.append(String(i))
                 }
             }
-            let res = Hourly(time: time,
+            let resultHourly = Hourly(time: time,
                              temperature2M: temperatupe,
                              precipitation: precipitation,
                              windspeed10M: windSpeed,
                              iconImage: iconImage )
-            weatherGetHourly.append(res)
+            weatherGetHourly.append(resultHourly)
         }
         self.weatherUnits = weatherGetUnit
         self.weatherHourly = weatherGetHourly
