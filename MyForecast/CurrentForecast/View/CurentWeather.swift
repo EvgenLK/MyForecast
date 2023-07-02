@@ -173,26 +173,30 @@ class CurentWeather: UIView, UICollectionViewDelegate{
     }()
     
     func setupСonstraints() {
-        NSLayoutConstraint.activate([
-            myTextFieldCity.topAnchor.constraint(equalTo:  topAnchor, constant: 90),
-            myTextFieldCity.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            myTextFieldCity.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -170),
-            myTextFieldCity.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -750),
-        ])
         
+        let margins = layoutMarginsGuide
         NSLayoutConstraint.activate([
-            myTextFieldDaysForeCast.topAnchor.constraint(equalTo: topAnchor, constant: 150),
-            myTextFieldDaysForeCast.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            myTextFieldDaysForeCast.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -170),
-            myTextFieldDaysForeCast.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -690),
-        ])
-        
-        NSLayoutConstraint.activate([
-            myButtonTemperature.topAnchor.constraint(equalTo: topAnchor, constant: 90),
-            myButtonTemperature.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 250),
-            myButtonTemperature.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-            myButtonTemperature.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -750),
-        ])
+             myTextFieldCity.topAnchor.constraint(equalTo: margins.topAnchor, constant: 16),
+             myTextFieldCity.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: 10),
+             myTextFieldCity.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -130),
+             myTextFieldCity.bottomAnchor.constraint(equalTo: myTextFieldDaysForeCast.topAnchor, constant: -16),
+             myTextFieldCity.heightAnchor.constraint(equalToConstant: 40),
+         ])
+         
+         NSLayoutConstraint.activate([
+             myTextFieldDaysForeCast.topAnchor.constraint(equalTo: myTextFieldCity.bottomAnchor, constant: 20),
+             myTextFieldDaysForeCast.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: 10),
+             myTextFieldDaysForeCast.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -130),
+             myTextFieldDaysForeCast.heightAnchor.constraint(equalToConstant: 40),
+         ])
+         
+         NSLayoutConstraint.activate([
+             myButtonTemperature.topAnchor.constraint(equalTo: margins.topAnchor, constant: 16),
+             myButtonTemperature.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -16),
+             myButtonTemperature.widthAnchor.constraint(equalToConstant: 100),
+             myButtonTemperature.heightAnchor.constraint(equalToConstant: 90),
+
+         ])
         
         NSLayoutConstraint.activate([
             myCurrentDate.topAnchor.constraint(equalTo: topAnchor, constant: 200),
@@ -222,10 +226,10 @@ class CurentWeather: UIView, UICollectionViewDelegate{
         ])
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: topAnchor, constant: 730),
-            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+            collectionView.topAnchor.constraint(equalTo: myCurrentWind.bottomAnchor, constant: 200),
+            collectionView.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: -5),
+            collectionView.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: 5),
+            collectionView.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: 10),
         ])
     }
 }

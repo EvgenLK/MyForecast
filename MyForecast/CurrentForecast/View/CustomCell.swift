@@ -9,10 +9,10 @@ import UIKit
 
 final class CustomCell: UICollectionViewCell {
     
-    let myTemp: UILabel = {
-        let myTemp = UILabel()
-        myTemp.translatesAutoresizingMaskIntoConstraints = false
-        return myTemp
+    let myImage: UIImageView = {
+        let myImage = UIImageView()
+        myImage.translatesAutoresizingMaskIntoConstraints = false
+        return myImage
     }()
     
     let myHour: UILabel = {
@@ -21,6 +21,12 @@ final class CustomCell: UICollectionViewCell {
         return myHour
     }()
     
+    let myTemp: UILabel = {
+        let myTemp = UILabel()
+        myTemp.translatesAutoresizingMaskIntoConstraints = false
+        return myTemp
+    }()
+
     let myRain: UILabel = {
         let myRain = UILabel()
         myRain.translatesAutoresizingMaskIntoConstraints = false
@@ -32,45 +38,42 @@ final class CustomCell: UICollectionViewCell {
         myWindSpeed.translatesAutoresizingMaskIntoConstraints = false
         return myWindSpeed
     }()
-    let myImage: UIImageView = {
-        let myImage = UIImageView()
-        myImage.translatesAutoresizingMaskIntoConstraints = false
-        return myImage
-    }()
+
     func setupConstraints() {
+        let margins = layoutMarginsGuide
+        
         NSLayoutConstraint.activate([
-            myTemp.topAnchor.constraint(equalTo: topAnchor),
-            myTemp.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            myTemp.trailingAnchor.constraint(equalTo: trailingAnchor),
-            myTemp.bottomAnchor.constraint(equalTo: bottomAnchor)
+            myImage.topAnchor.constraint(equalTo: margins.topAnchor, constant: -40),
+            myImage.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: 25),
+            myImage.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -25),
+            myImage.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: -60)
+        ])
+        NSLayoutConstraint.activate([
+            myHour.topAnchor.constraint(equalTo: myImage.bottomAnchor, constant: -30),
+            myHour.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: 0),
+            myHour.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: 0),
+            myHour.bottomAnchor.constraint(equalTo: margins.bottomAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            myHour.topAnchor.constraint(equalTo: topAnchor, constant: -35),
-            myHour.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            myHour.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 10),
-            myHour.bottomAnchor.constraint(equalTo: bottomAnchor)
+            myTemp.topAnchor.constraint(equalTo: margins.topAnchor,constant: 10),
+            myTemp.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: 25),
+            myTemp.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -25),
+            myTemp.bottomAnchor.constraint(equalTo: margins.bottomAnchor)
         ])
-        
+
         NSLayoutConstraint.activate([
-            myRain.topAnchor.constraint(equalTo: topAnchor, constant: 30),
-            myRain.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            myRain.trailingAnchor.constraint(equalTo: trailingAnchor),
-            myRain.bottomAnchor.constraint(equalTo: bottomAnchor)
+            myRain.topAnchor.constraint(equalTo: margins.topAnchor, constant: 40),
+            myRain.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: 25),
+            myRain.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -25),
+            myRain.bottomAnchor.constraint(equalTo: margins.bottomAnchor)
         ])
-        
+
         NSLayoutConstraint.activate([
-            myWindSpeed.topAnchor.constraint(equalTo: topAnchor, constant: 65),
-            myWindSpeed.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            myWindSpeed.trailingAnchor.constraint(equalTo: trailingAnchor),
-            myWindSpeed.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            myImage.topAnchor.constraint(equalTo: topAnchor, constant: -35),
-            myImage.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 5),
-            myImage.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -65),
-            myImage.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -65)
+            myWindSpeed.topAnchor.constraint(equalTo: margins.topAnchor, constant: 60),
+            myWindSpeed.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: 25),
+            myWindSpeed.trailingAnchor.constraint(equalTo: margins.trailingAnchor,constant: -25),
+            myWindSpeed.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: 15)
         ])
     }
     
@@ -82,12 +85,9 @@ final class CustomCell: UICollectionViewCell {
         contentView.addSubview(myRain)
         contentView.addSubview(myWindSpeed)
         setupConstraints()
-
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }

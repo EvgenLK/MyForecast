@@ -27,13 +27,6 @@ class ViewController: UIViewController, InputActionDelegate {
     }
     
     func didPressSearchButton(city: String, day: Int) {
-        let timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { timer in
-            let alert = UIAlertController(title: "", message: "alert_not_city_request".localized, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
-        
-        RunLoop.current.add(timer, forMode: .common)
         if !city.isEmpty && (day > 0 && day < 8) { // Изменено условие с day < 6 на day < 8
             self.cityUtf8 = CityUtf8.getCityUtf8(city: city)
             
