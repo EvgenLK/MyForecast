@@ -226,10 +226,10 @@ class CurentWeather: UIView, UICollectionViewDelegate{
         ])
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: myCurrentWind.bottomAnchor, constant: 200),
+            collectionView.topAnchor.constraint(equalTo: myCurrentWind.bottomAnchor, constant: 230),
             collectionView.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: -5),
             collectionView.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: 5),
-            collectionView.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: 10),
+            collectionView.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: 15),
         ])
     }
 }

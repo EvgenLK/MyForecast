@@ -23,13 +23,13 @@ struct WeatherResponse {
         var iconImage = [String]()
         
         func modelDateFormat(StringDate: String) -> String {
-            let dateString = StringDate + ":00Z"
-            let dateFormatter = ISO8601DateFormatter()
-            let date = dateFormatter.date(from: dateString)
+            let inputFormatter = DateFormatter()
+            inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
+            guard let date = inputFormatter.date(from: StringDate) else { return "" }
             
-            let dateFormatterResult = DateFormatter()
-            dateFormatterResult.dateFormat = "dd.MM.yy HH:mm"
-            let formattedDate = dateFormatterResult.string(from: date ?? Date())
+            let outputFormatter = DateFormatter()
+            outputFormatter.dateFormat = "MM.dd HH:mm"
+            let formattedDate = outputFormatter.string(from: date)
             
             return formattedDate
         }
