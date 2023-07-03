@@ -7,10 +7,10 @@
 
 import Foundation
 
-class LanLonCityNetworkService {
-    private init() {}
+class CoordonateNetworkService {
+    init() {}
     
-    static func getLanLon(city: String, day: Int, completion: @escaping(GetLanLon) ->()) {
+    func getLanLon(city: String, day: Int, completion: @escaping(GetLanLon) ->()) {
         guard let url = URL(string: "https://geocoding-api.open-meteo.com/v1/search?name=\(city)&count=1&language=\("language".localized)&format=json")  else { return }
         
         NetworkService.shared.getData(url: url) { json in

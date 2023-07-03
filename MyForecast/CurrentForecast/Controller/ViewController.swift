@@ -12,9 +12,12 @@ class ViewController: UIViewController, InputActionDelegate {
     let customViewCurent = CurentWeather()
     var weather = [ModelDataWeather]()
     var lanlon = [WeatherCity]()
-    var cityUtf8: String = ""
+    var cityUtf8 = CityUtf8()
     var weatherUnit =  [HourlyUnit]()
     var weatherHourly =  [Hourly]()
+    let weatherService = WeatherNetworkService()
+    let CoordinateService = CoordonateNetworkService()
+
     
     override func loadView() {
         view = customViewCurent
@@ -27,12 +30,12 @@ class ViewController: UIViewController, InputActionDelegate {
     }
     
     func didPressSearchButton(city: String, day: Int) {
-        if !city.isEmpty && (day > 0 && day < 8) { // Изменено условие с day < 6 на day < 8
-            self.cityUtf8 = CityUtf8.getCityUtf8(city: city)
+        if !city.isEmpty && (day > 0 && day < 8) {
+            let city = cityUtf8.getCityUtf8(city: city)
             
-            LanLonCityNetworkService.getLanLon(city: cityUtf8, day: day) { response in
+            CoordinateService.getLanLon(city: city, day: day) { response in
                 self.lanlon = response.lanlon
-                WeatherNetworkService.getLanLon(latitude: self.lanlon[0].latitude, longitude: self.lanlon[0].longitude, days: day) { response in
+                self.weatherService.getLanLon(latitude: self.lanlon[0].latitude, longitude: self.lanlon[0].longitude, days: day) { response in
                     self.weatherUnit = response.weatherUnits
                     self.weatherHourly = response.weatherHourly
                     DispatchQueue.main.async {

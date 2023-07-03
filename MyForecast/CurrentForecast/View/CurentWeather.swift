@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-class CurentWeather: UIView, UICollectionViewDelegate{
+final class CurentWeather: UIView, UICollectionViewDelegate{
 
     weak var delegateTap: InputActionDelegate?
     var updatedWeatherHourly: [Hourly] = []
@@ -47,18 +47,15 @@ class CurentWeather: UIView, UICollectionViewDelegate{
     }()
     
     func updateUICurent() {
-            
             guard let currentHourlyData = self.updatedWeatherHourly.first else { return }
             self.currentTemperature = currentHourlyData.temperature2M[self.currentHour]
             self.currentWindSpeed = currentHourlyData.windspeed10M[self.currentHour]
             self.currentPrecip = currentHourlyData.precipitation[self.currentHour]
             self.currentTime = currentHourlyData.time[self.currentHour]
-            
             self.myCurrentTemp.text = "\(self.currentTemperature)°C"
             self.myCurrentWind.text = "\(self.currentWindSpeed) m/s"
             self.myCurrentDate.text = "\(self.currentTime)"
             self.myCurrentPrecipitation.text = "\(self.currentPrecip)"
-        
     }
      let collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -173,8 +170,8 @@ class CurentWeather: UIView, UICollectionViewDelegate{
     }()
     
     func setupСonstraints() {
-        
         let margins = layoutMarginsGuide
+        
         NSLayoutConstraint.activate([
              myTextFieldCity.topAnchor.constraint(equalTo: margins.topAnchor, constant: 16),
              myTextFieldCity.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: 10),

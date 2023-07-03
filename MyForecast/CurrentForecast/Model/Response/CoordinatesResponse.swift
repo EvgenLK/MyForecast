@@ -15,7 +15,6 @@ struct GetLanLon {
         
         var lanlons = [WeatherCity]()
         
-        
         if let results = array["results"] as? [[String: Any]] {
             for result in results {
                 guard let admin1 = result["admin1"] as? String else { continue }
