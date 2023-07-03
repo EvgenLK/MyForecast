@@ -48,7 +48,6 @@ class ViewController: UIViewController, InputActionDelegate {
             let alert = UIAlertController(title: "", message: "", preferredStyle: UIAlertController.Style.alert)
             if city.isEmpty && (day < 1 || day > 7) {
                 alert.message = "alert_not_textField_Search".localized
-
             } else if day < 1 || day > 7 {
                 alert.message = "alert_message_empty_day".localized
             } else {

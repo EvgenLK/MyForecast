@@ -8,7 +8,7 @@
 import UIKit
 
 final class CustomCell: UICollectionViewCell {
-    let updateWeather = CurentWeather()
+    private let updateWeather = CurentWeather()
     
     let myImage: UIImageView = {
         let myImage = UIImageView()
@@ -16,30 +16,30 @@ final class CustomCell: UICollectionViewCell {
         return myImage
     }()
     
-    let myHour: UILabel = {
+    private  let myHour: UILabel = {
         let myHour = UILabel()
         myHour.translatesAutoresizingMaskIntoConstraints = false
         return myHour
     }()
     
-    let myTemp: UILabel = {
+    private let myTemp: UILabel = {
         let myTemp = UILabel()
         myTemp.translatesAutoresizingMaskIntoConstraints = false
         return myTemp
     }()
-
-    let myRain: UILabel = {
+    
+    private let myRain: UILabel = {
         let myRain = UILabel()
         myRain.translatesAutoresizingMaskIntoConstraints = false
         return myRain
     }()
     
-    let myWindSpeed: UILabel = {
+    private let myWindSpeed: UILabel = {
         let myWindSpeed = UILabel()
         myWindSpeed.translatesAutoresizingMaskIntoConstraints = false
         return myWindSpeed
     }()
-
+    
     func setupConstraints() {
         let margins = layoutMarginsGuide
         
@@ -62,14 +62,14 @@ final class CustomCell: UICollectionViewCell {
             myTemp.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -25),
             myTemp.bottomAnchor.constraint(equalTo: margins.bottomAnchor)
         ])
-
+        
         NSLayoutConstraint.activate([
             myRain.topAnchor.constraint(equalTo: margins.topAnchor, constant: 40),
             myRain.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: 25),
             myRain.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -25),
             myRain.bottomAnchor.constraint(equalTo: margins.bottomAnchor)
         ])
-
+        
         NSLayoutConstraint.activate([
             myWindSpeed.topAnchor.constraint(equalTo: margins.topAnchor, constant: 60),
             myWindSpeed.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: 25),
@@ -93,12 +93,10 @@ final class CustomCell: UICollectionViewCell {
     }
     
     func congifure(with weather: CustomCellViewModel) {
-        
         myHour.text = weather.time
         myRain.text = weather.rain
         myTemp.text = weather.temp
         myWindSpeed.text = weather.windSpeed
         myImage.image = UIImage(named: weather.iconImage)
-        
     }
 }

@@ -22,18 +22,6 @@ struct WeatherResponse {
         var time = [String]()
         var iconImage = [String]()
         
-        func modelDateFormat(StringDate: String) -> String {
-            let inputFormatter = DateFormatter()
-            inputFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
-            guard let date = inputFormatter.date(from: StringDate) else { return "" }
-            
-            let outputFormatter = DateFormatter()
-            outputFormatter.dateFormat = "dd.MM HH:mm"
-            let formattedDate = outputFormatter.string(from: date)
-            
-            return formattedDate
-        }
-        
         if let hourleUnit = array["hourly_units"] as? [[String: Any]] {
             for arrayElem in hourleUnit {
                 
@@ -59,7 +47,7 @@ struct WeatherResponse {
             }
             if let timeArray = hourle["time"] as? [String] {
                 for i in timeArray {
-                    time.append(modelDateFormat(StringDate: i))
+                    time.append(TimeModalConvert().modelDateFormat(StringDate: i))
                 }
             }
             if let temperatureArray = hourle["temperature_2m"] as? [Double] {
