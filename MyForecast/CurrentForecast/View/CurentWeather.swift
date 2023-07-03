@@ -48,6 +48,7 @@ final class CurentWeather: UIView, UICollectionViewDelegate{
     
     func updateUICurent() {
             guard let currentHourlyData = self.updatedWeatherHourly.first else { return }
+        
             self.currentTemperature = currentHourlyData.temperature2M[self.currentHour]
             self.currentWindSpeed = currentHourlyData.windspeed10M[self.currentHour]
             self.currentPrecip = currentHourlyData.precipitation[self.currentHour]

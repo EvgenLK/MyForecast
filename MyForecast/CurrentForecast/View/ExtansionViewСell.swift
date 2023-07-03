@@ -24,15 +24,10 @@ extension CurentWeather: UICollectionViewDelegateFlowLayout, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CustomCell
-        let weather = updatedWeatherHourly.first
-        
-        
-        cell.myHour.text = weather?.time[indexPath.row]
-        cell.myRain.text = weather?.precipitation[indexPath.row]
-        cell.myTemp.text = weather?.temperature2M[indexPath.row]
-        cell.myWindSpeed.text = weather?.windspeed10M[indexPath.row]
-        cell.myImage.image = UIImage(named: weather?.iconImage[indexPath.row] ?? "")
-
+        let weather = updatedWeatherHourly
+        for weatherElem in weather {
+            cell.congifure(with: CustomCellViewModel.init(time: weatherElem.time[indexPath.row], rain: weatherElem.precipitation[indexPath.row], temp: weatherElem.temperature2M[indexPath.row], windSpeed: weatherElem.windspeed10M[indexPath.row], iconImage: weatherElem.iconImage[indexPath.row]))
+        }
         return cell
     }
 }

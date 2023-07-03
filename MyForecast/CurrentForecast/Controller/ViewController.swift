@@ -17,7 +17,6 @@ class ViewController: UIViewController, InputActionDelegate {
     var weatherHourly =  [Hourly]()
     let weatherService = WeatherNetworkService()
     let CoordinateService = CoordonateNetworkService()
-
     
     override func loadView() {
         view = customViewCurent

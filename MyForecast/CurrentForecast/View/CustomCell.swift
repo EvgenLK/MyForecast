@@ -8,6 +8,7 @@
 import UIKit
 
 final class CustomCell: UICollectionViewCell {
+    let updateWeather = CurentWeather()
     
     let myImage: UIImageView = {
         let myImage = UIImageView()
@@ -90,5 +91,14 @@ final class CustomCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
+    func congifure(with weather: CustomCellViewModel) {
+        
+        myHour.text = weather.time
+        myRain.text = weather.rain
+        myTemp.text = weather.temp
+        myWindSpeed.text = weather.windSpeed
+        myImage.image = UIImage(named: weather.iconImage)
+        
+    }
 }
