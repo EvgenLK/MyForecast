@@ -28,7 +28,7 @@ struct WeatherResponse {
             guard let date = inputFormatter.date(from: StringDate) else { return "" }
             
             let outputFormatter = DateFormatter()
-            outputFormatter.dateFormat = "MM.dd HH:mm"
+            outputFormatter.dateFormat = "dd.MM HH:mm"
             let formattedDate = outputFormatter.string(from: date)
             
             return formattedDate
