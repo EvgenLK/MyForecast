@@ -77,12 +77,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		9B3DB5052A3ECC8500DF962B /* Delegate */ = {
+		9B3DB5052A3ECC8500DF962B /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
 				9B3DB5032A3EADF600DF962B /* InputActionDelegate.swift */,
 			);
-			path = Delegate;
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		9B43B2372A372AEC005E85DD /* NetworkService */ = {
@@ -181,7 +181,7 @@
 		9BAEAF882A35E3B300A986DA /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				9B3DB5052A3ECC8500DF962B /* Delegate */,
+				9B3DB5052A3ECC8500DF962B /* Protocol */,
 				9B43B23A2A372D8E005E85DD /* Response */,
 				9B43B2382A372B07005E85DD /* CityUtf8.swift */,
 				9B842A562A0741FE00A6B1C8 /* WeatherCity.swift */,
